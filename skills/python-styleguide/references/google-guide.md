@@ -40,6 +40,8 @@ and 3.13–3.19 for details and exceptions; this selection is not exhaustive.
 - **Existing tooling owns formatting.** Keep the project's chosen formatter
   and line length. Explain a difference from Google's baseline rather than
   repeatedly undoing formatter output. Do not install a competing formatter.
+  The user-selected docstring and block layout below is an explicit adaptation;
+  flag conflicting target-project settings instead of silently normalizing it.
 - **Tool coverage is partial.** Ruff, Pylint, type checkers, and tests cover
   different concerns. An existing Ruff setup is not proof that every Google
   rule is enforced. Do not enable all rules or blanket suppressions to make a
@@ -58,3 +60,51 @@ and 3.13–3.19 for details and exceptions; this selection is not exhaustive.
   may remain one function; length alone is insufficient evidence of a defect.
 - **Libraries are project choices.** Examples in Google's guide do not authorize
   adding Google-specific packages or changing the application's entrypoint.
+
+## Preferred layout example
+
+The user requests docstring delimiters on separate lines, one blank line after
+the docstring, and compact semantic blocks separated by blank lines. This applies
+to class and method docstrings as well as standalone functions, including short
+descriptions. It does not require adding redundant docstrings everywhere.
+
+This original Python 3.9+ example constructs arguments without running a download. The
+method separates destination setup, command construction, and the return. Each
+conditional remains next to the operation it complements. The class illustrates
+class layout; a standalone function can be preferable when no shared state exists.
+
+```python
+class DownloadCommand:
+    """
+    Build download arguments using a shared default destination.
+    """
+
+    def __init__(self, default_output: str) -> None:
+        """
+        Store the default output path.
+        """
+
+        self.default_output = default_output
+
+    def build(
+        self, url: str, output: str = "", resume: bool = False
+    ) -> list[str]:
+        """
+        Return command arguments without executing the download.
+        """
+
+        destination = output
+        if not destination:
+            destination = self.default_output
+
+        command = ["curl", "--output", destination]
+        if resume:
+            command.extend(["--continue-at", "-"])
+        command.extend(["--", url])
+
+        return command
+```
+
+Do not add empty lines between a command assignment and its option guards.
+Separate a new concern when one begins; a small cohesive body may need no
+internal blank lines. Preserve existing API and behavior when applying layout.
