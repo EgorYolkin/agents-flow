@@ -64,6 +64,7 @@ Codex, Claude Code, OMP, Pi, OpenCode или любом другом. Не пе�
 |---|---|---|
 | `init` | `init` | Создание и обновление contributor guide `AGENTS.md` |
 | `dockerfile-styleguide` | `dockerfile-styleguide` | Dockerfile и `.dockerignore` |
+| `python-styleguide` | `python-styleguide` | Python: стиль, импорты, типы, docstrings и ответственность функций |
 | `html-css-styleguide` | `html-css-styleguide` | HTML, CSS, шаблоны |
 | `shell-styleguide` | `shell-styleguide` | Bash и POSIX sh |
 | `typescript-styleguide` | `typescript-styleguide` | TypeScript и TSX |
@@ -203,6 +204,9 @@ SHA источника, выполненные проверки и необхо�
 
 Для смешанной задачи сочетай скиллы по областям: например, Docker для образа
 и Shell для entrypoint. Не распространяй правила одного языка на другой.
+Для Python используй `python-styleguide`: сначала проверь поддерживаемые версии
+и существующие инструменты проекта. Сохраняй публичные API и не превращай
+рекомендации по длине функций в обязательное разбиение или создание классов.
 Обычная фраза «используй shell-styleguide» — запрос агенту, а не универсальная
 команда терминала; конкретный синтаксис вызова зависит от harness.
 
