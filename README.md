@@ -44,6 +44,7 @@ https://raw.githubusercontent.com/EgorYolkin/agents-flow/main/docs/GUIDE.md
 |---|---|
 | [Init](skills/init/SKILL.md) | Создание и обновление `AGENTS.md` по структуре, командам и правилам репозитория |
 | [Dockerfile](skills/dockerfile-styleguide/SKILL.md) | Dockerfile и `.dockerignore`: сборка, кэширование, размер образа и безопасность |
+| [Python](skills/python-styleguide/SKILL.md) | Google PyGuide: импорты, типы, docstrings и ответственность функций с сохранением API |
 | [HTML/CSS](skills/html-css-styleguide/SKILL.md) | Разметка, стили и шаблоны с сохранением доступности и используемых селекторов |
 | [Shell](skills/shell-styleguide/SKILL.md) | Bash и sh: quoting, аргументы, обработка ошибок и совместимость |
 | [TypeScript](skills/typescript-styleguide/SKILL.md) | TypeScript и TSX: типы, импорты, именование и читаемость |
@@ -64,6 +65,12 @@ Repository Guidelines, примерно на 200–400 слов. Указыва�
 ```text
 Используй shell-styleguide. Проверь scripts/deploy.sh и объясни замечания.
 Пока ничего не меняй.
+```
+
+```text
+Используй python-styleguide. Исправь стиль в изменённых Python-файлах,
+сохрани публичные API и совместимость с поддерживаемыми версиями Python.
+Проверь ответственность функций и запусти доступные проверки проекта.
 ```
 
 ```text
