@@ -35,6 +35,32 @@ require context beyond a style guide.
 7. Review the final diff and report checks actually performed. Formatting and
    lint success do not prove behavior preservation or full guide compliance.
 
+## Function and class layout
+
+Apply these user-selected conventions to functions, methods, and classes. They
+are deliberate adaptations, not claims about Google's required formatting.
+
+- Put opening and closing triple double quotes (`"""`) on their own lines,
+  with the docstring text between them, even for a one-sentence description.
+  Keep the docstring as the first statement in its function or class.
+- Leave one blank line after the closing docstring before the implementation,
+  class attributes, or first method. Do not insert a blank line inside a
+  docstring merely to create this separation.
+- Separate meaningful phases with one blank line: for example, environment
+  setup, download-command construction with its options, then returning the
+  result. Use the phases actually present; do not force a three-block template.
+- Keep related statements compact. An `if` that validates or extends the
+  immediately preceding operation stays adjacent to it, without a blank line.
+  Keep its dependent statements in the same block; do not space every statement
+  or every `if` apart mechanically.
+- Use whitespace to expose existing meaning, not to reorder side effects or
+  invent helpers and classes. See the
+  [layout example](references/google-guide.md#preferred-layout-example).
+
+Apply this layout to new and touched code within the request's scope. If explicit
+target-project rules or configured tooling conflict, explain the conflict rather
+than silently dropping the preference or changing tooling without authorization.
+
 ## Compatibility and edge cases
 
 These safeguards adapt the guide to existing projects.
