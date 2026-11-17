@@ -29,7 +29,7 @@
 
 ## Key Directories
 
-- `skills/` — семь пакетов: `dockerfile-styleguide`, `html-css-styleguide`,
+- `skills/` — восемь пакетов: `init`, `dockerfile-styleguide`, `html-css-styleguide`,
   `shell-styleguide`, `typescript-styleguide`, `swift-styleguide`,
   `vimscript-styleguide`, `markdown-styleguide`.
 - `skills/*/references/` — подробные правила, источники, атрибуция и адаптации.
