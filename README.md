@@ -42,6 +42,7 @@ https://raw.githubusercontent.com/EgorYolkin/agents-flow/main/docs/GUIDE.md
 
 | Скилл | Для чего |
 |---|---|
+| [Git](skills/git-guide/SKILL.md) | Ветки задач, worktrees, изучение истории и осмысленные коммиты без захвата чужих изменений |
 | [Init](skills/init/SKILL.md) | Создание и обновление `AGENTS.md` по структуре, командам и правилам репозитория |
 | [Dockerfile](skills/dockerfile-styleguide/SKILL.md) | Dockerfile и `.dockerignore`: сборка, кэширование, размер образа и безопасность |
 | [Python](skills/python-styleguide/SKILL.md) | Google PyGuide: импорты, типы, docstrings и ответственность функций с сохранением API |
@@ -55,6 +56,12 @@ https://raw.githubusercontent.com/EgorYolkin/agents-flow/main/docs/GUIDE.md
 ## Как пользоваться
 
 Сформулируйте задачу и при необходимости назовите скилл явно:
+
+```text
+Используй git-guide при работе над задачей. Изучи релевантную историю,
+выбери ветку и изоляцию, сохраняй законченные шаги осмысленными коммитами.
+Не включай чужие изменения. Push и merge пока не выполняй.
+```
 
 ```text
 Используй init. Изучи этот репозиторий и создай AGENTS.md с заголовком

@@ -18,7 +18,8 @@
   с `name`. Изменение описания может изменить поведение выбора скилла.
 - `SKILL.md` содержит workflow и ссылки на локальные ресурсы. Семь пакетов
   используют `references/google-guide.md`; Docker самодостаточен. Общего
-  исполняемого слоя и зависимостей между пакетами нет.
+  исполняемого слоя и зависимостей между пакетами нет. `git-guide` содержит
+  отдельные references по истории, коммитам, изоляции и восстановлению.
 - Поток: каталог в `README.md` → выбор по актуальному frontmatter → установка
   целых выбранных пакетов по `docs/GUIDE.md` из одной ревизии → discovery
   harness → загрузка подходящего `SKILL.md` и нужных references → работа
@@ -29,7 +30,7 @@
 
 ## Key Directories
 
-- `skills/` — девять пакетов: `init`, `dockerfile-styleguide`, `python-styleguide`,
+- `skills/` — десять пакетов: `git-guide`, `init`, `dockerfile-styleguide`, `python-styleguide`,
   `html-css-styleguide`,
   `shell-styleguide`, `typescript-styleguide`, `swift-styleguide`,
   `vimscript-styleguide`, `markdown-styleguide`.
