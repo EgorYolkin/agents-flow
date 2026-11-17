@@ -1,9 +1,9 @@
 ---
-name: dockerfile-builder
+name: dockerfile-styleguide
 description: Create, review, fix, and optimize production Dockerfiles and project-specific .dockerignore files with secure defaults, efficient BuildKit caching, small runtime images, and concise human comments. Use this skill whenever the user asks to containerize an application, create or improve a Dockerfile, reduce image size or build time, add multi-stage builds, configure BuildKit secrets or caches, harden a container image, troubleshoot Docker build layers, or review Docker image security—even if they ask only to “dockerize” a project and do not explicitly mention Dockerfile best practices.
 ---
 
-# Dockerfile Builder
+# Dockerfile Style Guide
 
 Create a Docker setup that is boring, maintainable, secure by default, and optimized for the actual project. Optimize where the benefit is concrete; do not turn a small application into an infrastructure framework.
 
