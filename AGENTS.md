@@ -31,7 +31,7 @@
 
 ## Key Directories
 
-- `skills/` — одиннадцать пакетов: `git-guide`, `init`, `dockerfile-styleguide`,
+- `skills/` — двенадцать пакетов: `project-init`, `git-guide`, `init`, `dockerfile-styleguide`,
   `go-styleguide`, `python-styleguide`, `html-css-styleguide`,
   `shell-styleguide`, `typescript-styleguide`, `swift-styleguide`,
   `vimscript-styleguide`, `markdown-styleguide`.

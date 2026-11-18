@@ -34,6 +34,7 @@
 | Скилл | Для чего |
 |---|---|
 | [Git](skills/git-guide/SKILL.md) | Ветки задач, worktrees, изучение истории и осмысленные коммиты без захвата чужих изменений |
+| [Project Init](skills/project-init/SKILL.md) | Старт проекта в чате: первая задача, подходящие скиллы и критерий готовности. Сохранение по запросу. |
 | [Init](skills/init/SKILL.md) | Подготовка проекта для агента: архитектура, команды, проверки, `AGENTS.md`, Git и проектный `GIT_WORKFLOW.md` |
 | [Dockerfile](skills/dockerfile-styleguide/SKILL.md) | Dockerfile и `.dockerignore`: сборка, кэширование, размер образа и безопасность |
 | [Go](skills/go-styleguide/SKILL.md) | Имена и `gofmt`, контракты экспортируемого API, ошибки и выбор между конкретным типом, интерфейсом и параметром типа |
