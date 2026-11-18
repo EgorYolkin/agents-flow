@@ -1,8 +1,9 @@
 # Repository Guidelines
 
-Перед работой прочитай [руководство для агента](docs/GUIDE.md):
+Перед работой прочитай [руководство для агента](docs/INSTALLING_GUIDE.md):
 там находятся инструкции по установке, применению, обновлению и удалению
-скиллов этого репозитория. Правила контрибьюта описаны ниже.
+скиллов этого репозитория.
+Правила контрибьюта описаны ниже.
 
 ## Project Overview
 
@@ -21,7 +22,7 @@
   исполняемого слоя и зависимостей между пакетами нет. `git-guide` содержит
   отдельные references по истории, коммитам, изоляции и восстановлению.
 - Поток: каталог в `README.md` → выбор по актуальному frontmatter → установка
-  целых выбранных пакетов по `docs/GUIDE.md` из одной ревизии → discovery
+  целых выбранных пакетов по `docs/INSTALLING_GUIDE.md` из одной ревизии → discovery
   harness → загрузка подходящего `SKILL.md` и нужных references → работа
   с проектом пользователя и отчёт о фактических проверках.
 - Не путай инструкции и примеры для потребляющего проекта с исходниками или
@@ -58,7 +59,7 @@ git switch -c fix/{name}-skill
 файлы и сделай коммит, например:
 
 ```sh
-git add skills/markdown-styleguide/SKILL.md README.md docs/GUIDE.md
+git add skills/markdown-styleguide/SKILL.md README.md docs/INSTALLING_GUIDE.md
 git commit -m "feat: implement markdown skill"
 ```
 
@@ -88,7 +89,8 @@ git commit -m "feat: implement markdown skill"
 2. Прочитай затронутый скилл, references и документацию. Правь пакет целиком
    в пределах задачи, а не вводи второй параллельный набор правил.
 3. При достаточно значимых изменениях всегда обновляй **оба** файла:
-   `README.md` и `docs/GUIDE.md`. К таким изменениям относятся добавление,
+   `README.md` и `docs/INSTALLING_GUIDE.md`. К таким изменениям относятся
+   добавление,
    удаление, переименование, изменение назначения скилла или процедуры
    установки/применения. Согласуй каталоги, ссылки и примеры с frontmatter.
    Для локальной правки без изменения пользовательского поведения не нужны
@@ -101,7 +103,7 @@ git commit -m "feat: implement markdown skill"
 ## Important Files
 
 - `README.md` — пользовательский каталог и примеры запросов.
-- `docs/GUIDE.md` — основной контракт установки и использования.
+- `docs/INSTALLING_GUIDE.md` — основной контракт установки и использования.
 - `skills/*/SKILL.md` — точки входа, activation metadata и процедуры.
 - `skills/*/references/google-guide.md` — детальные правила и provenance.
 - `skills/dockerfile-styleguide/.editorconfig`, `.gitattributes`, `.gitignore`
@@ -117,7 +119,8 @@ git commit -m "feat: implement markdown skill"
 Устанавливай только выбранные пакеты целиком в документированный каталог
 текущего harness. Не клонируй репозиторий внутрь discovery roots, не запускай
 скрипты ради установки инструкций и не затирай локальные адаптации.
-Стандартные OMP-пути описаны в GUIDE, но требуют проверки версии и overrides.
+Стандартные OMP-пути описаны в INSTALLING_GUIDE, но требуют проверки версии
+и overrides.
 
 ## Testing & QA
 
