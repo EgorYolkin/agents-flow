@@ -52,6 +52,7 @@ https://raw.githubusercontent.com/EgorYolkin/agents-flow/main/docs/GUIDE.md
 | [Git](skills/git-guide/SKILL.md) | Ветки задач, worktrees, изучение истории и осмысленные коммиты без захвата чужих изменений |
 | [Init](skills/init/SKILL.md) | Подготовка проекта для агента: архитектура, команды, проверки, `AGENTS.md`, Git и проектный `GIT_WORKFLOW.md` |
 | [Dockerfile](skills/dockerfile-styleguide/SKILL.md) | Dockerfile и `.dockerignore`: сборка, кэширование, размер образа и безопасность |
+| [Go](skills/go-styleguide/SKILL.md) | Имена и `gofmt`, контракты экспортируемого API, ошибки и выбор между конкретным типом, интерфейсом и параметром типа |
 | [Python](skills/python-styleguide/SKILL.md) | Google PyGuide: именование, импорты, дженерики, docstrings и выбор между функцией и классом без лишних абстракций |
 | [HTML/CSS](skills/html-css-styleguide/SKILL.md) | Разметка, стили и шаблоны с сохранением доступности и используемых селекторов |
 | [Shell](skills/shell-styleguide/SKILL.md) | Bash и sh: quoting, аргументы, обработка ошибок и совместимость |
@@ -105,6 +106,12 @@ https://raw.githubusercontent.com/EgorYolkin/agents-flow/main/docs/GUIDE.md
 ```text
 Используй dockerfile-styleguide. Проверь Dockerfile и .dockerignore,
 затем исправь найденные проблемы в рамках текущего приложения.
+```
+
+```text
+Используй go-styleguide. Проверь Go-пакет checkpoint: можно ли по сигнатурам
+и комментариям понять, когда чтение вернёт io.EOF, а когда запись оборвана?
+Отдели ошибки контракта от замечаний по стилю. Код пока не меняй.
 ```
 
 Автоматическое подключение зависит от вашего агента. Если он не выбрал скилл,
