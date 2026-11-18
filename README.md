@@ -5,7 +5,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/EgorYolkin/agents-flow?style=flat-square&color=111111)](https://github.com/EgorYolkin/agents-flow/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/EgorYolkin/agents-flow?style=flat-square&color=111111)](https://github.com/EgorYolkin/agents-flow/forks)
 [![Last commit](https://img.shields.io/github/last-commit/EgorYolkin/agents-flow?style=flat-square&color=111111)](https://github.com/EgorYolkin/agents-flow/commits/main/)
-[![Руководство для агента](https://img.shields.io/badge/agent-guide-C8A2FF?style=flat-square)](docs/GUIDE.md)
+[![Руководство для агента](https://img.shields.io/badge/agent-guide-C8A2FF?style=flat-square)](docs/INSTALLING_GUIDE.md)
 
 Скиллы для AI-агентов, которые пишут, исправляют и проверяют код, а также
 готовят инструкции для работы с репозиторием. Они задают
@@ -120,4 +120,4 @@ Python-скилл также задаёт оформление функций и
 
 Источники, версии руководств и атрибуция приведены в `references/` соответствующих
 скиллов. Порядок установки, обновления и применения описан в
-[руководстве для агента](docs/GUIDE.md).
+[руководстве для агента](docs/INSTALLING_GUIDE.md).
