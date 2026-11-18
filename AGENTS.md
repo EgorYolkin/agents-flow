@@ -16,7 +16,7 @@
 - Источник пакета — `skills/<name>/SKILL.md`. YAML frontmatter `name` и
   `description` задаёт идентичность и область активации; имя каталога совпадает
   с `name`. Изменение описания может изменить поведение выбора скилла.
-- `SKILL.md` содержит workflow и ссылки на локальные ресурсы. Семь пакетов
+- `SKILL.md` содержит workflow и ссылки на локальные ресурсы. Восемь пакетов
   используют `references/google-guide.md`; Docker самодостаточен. Общего
   исполняемого слоя и зависимостей между пакетами нет. `git-guide` содержит
   отдельные references по истории, коммитам, изоляции и восстановлению.
@@ -30,8 +30,8 @@
 
 ## Key Directories
 
-- `skills/` — десять пакетов: `git-guide`, `init`, `dockerfile-styleguide`, `python-styleguide`,
-  `html-css-styleguide`,
+- `skills/` — одиннадцать пакетов: `git-guide`, `init`, `dockerfile-styleguide`,
+  `go-styleguide`, `python-styleguide`, `html-css-styleguide`,
   `shell-styleguide`, `typescript-styleguide`, `swift-styleguide`,
   `vimscript-styleguide`, `markdown-styleguide`.
 - `skills/*/references/` — подробные правила, источники, атрибуция и адаптации.
