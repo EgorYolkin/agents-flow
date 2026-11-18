@@ -69,7 +69,7 @@ Codex, Claude Code, OMP, Pi, OpenCode или любом другом. Не пе�
 | `html-css-styleguide` | `html-css-styleguide` | HTML, CSS, шаблоны |
 | `shell-styleguide` | `shell-styleguide` | Bash и POSIX sh |
 | `typescript-styleguide` | `typescript-styleguide` | TypeScript и TSX |
-| `swift-styleguide` | `swift-styleguide` | Swift |
+| `swift-styleguide` | `swift-styleguide` | Swift: проверяй API в месте вызова, сопоставляй `///` с поведением и уточняй, должна ли копия иметь независимое состояние |
 | `vimscript-styleguide` | `vimscript-styleguide` | Vimscript |
 | `markdown-styleguide` | `markdown-styleguide` | Markdown-документация |
 
