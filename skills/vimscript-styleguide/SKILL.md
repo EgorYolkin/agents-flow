@@ -35,9 +35,11 @@ mappings, supported editor versions, or intended interaction with user settings.
 
 - Use two-space indentation and spaces around expression operators. Command
   arguments have their own grammar: do not insert spaces inside command flags.
-- Prefer descriptive scoped names in legacy code. Preserve externally consumed
-  names and autoload path/name correspondence. Do not add legacy scope prefixes
-  to Vim9 constructs without checking the dialect.
+- Name new legacy variables for their role in `lower_snake_case`; use
+  `UpperCamelCase` for function names, commands, and local Funcref names.
+  Prefix arguments with `a:`, locals with `l:`, script-private helpers with
+  `s:`, and predefined Vim variables with `v:`. Keep existing public spellings.
+  Do not apply legacy prefixes to Vim9 parameters or locals.
 - Prefer single-quoted literal strings; keep double quotes when escape sequences
   are intentional. Changing quote marks requires checking the resulting value.
 - Make pattern magic and case decisions explicit when matching protocol or
@@ -54,6 +56,31 @@ mappings, supported editor versions, or intended interaction with user settings.
   global option is a valid exception; do not change its scope silently.
 - Treat mapping RHS bytes as behavior, including trailing spaces used to prepare
   command-line input. Do not run whitespace cleanup blindly over mappings.
+
+## Public functions and state
+
+Start at the current caller. If it only transforms an argument, use the
+existing script and a plain function. Use `b:` for state shared by calls on
+one buffer, `w:` for one window, and `s:` only if the whole script should
+share it. Name plugin-owned buffer/window variables with a plugin prefix.
+Reserve `g:` for intentionally global settings, not temporary results. Add a
+dictionary with methods only when separate instances need their own state
+and operations; a new plugin or framework is not a prerequisite for either.
+
+For a public autoload function, keep the `#` namespace aligned with the path
+under `autoload/`. Document the call in the project's existing help or API
+comments: argument types and meaning, result (including an empty or missing
+case), catchable errors, and any mutation of inputs or editor state. In
+legacy Vimscript, check types where coercion would change the contract; don't
+replace an accepted value with a new exception during a style fix. For Vim9,
+use the project's typed signatures instead of adding legacy checks by rote.
+
+In new multi-step functions, leave a blank line after a guard that returns or
+throws, and between a state update and the return of its result. Keep the
+test next to the value it checks. This is a project preference, not a Google
+rule; preserve the target project's formatter and explicit conventions. See
+the [legacy examples](references/google-guide.md#original-legacy-vimscript-examples)
+for a buffer-owned value that may be consumed only once.
 
 ## Compatibility and dependencies
 
