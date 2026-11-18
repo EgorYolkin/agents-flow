@@ -25,7 +25,25 @@ Keep modern Swift constructs supported by the project's compiler. The linked Goo
 
 Avoid blind textual rewrites: semicolons and whitespace inside literals, multiline-string indentation, attributes, conditional compilation, and compiler directives may carry meaning. Do not change generated code; identify its generator when a fix is needed.
 
-Do not turn a readability concern into an arbitrary function-length gate or automatically convert a function to a class. Explain the actual coupling or comprehension problem and propose the smallest useful change.
+## Designing or reviewing an API
+
+- Write a representative call before settling on the declaration. Read the
+  receiver, base name, and argument labels together: can a caller tell what
+  changes, what each argument means, and what the result represents?
+- Make the signature and `///` comment agree on the caller's contract: what
+  `nil` means, when an error is thrown, and whether a failed operation changes
+  state. Document the behavior where callers find it, not just in the body.
+- Start with an expression or function in the existing module. Add a type when
+  operations share state or enforce an invariant. Ask what should happen when
+  one caller assigns the value to another variable: independent progress or
+  the same owner's state? Function length is not a reason to introduce a class.
+- Use a generic constraint for an operation the implementation needs and a
+  type relationship callers use. Introduce a protocol when a consumer needs
+  a common capability, not as a counterpart to every concrete type.
+
+See the [worked Swift examples](references/google-guide.md#worked-examples)
+for call-site naming, copy behavior, and this project's blank-line preference
+after early exits and between a state update and its return.
 
 ## Review and output
 
