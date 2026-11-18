@@ -19,14 +19,34 @@ Apply a predictable TypeScript style while preserving the program's behavior and
 
 ## Practical rules
 
-- Prefer descriptive names and small cohesive functions. Length is a review signal, not a mandatory extraction or class-conversion threshold.
+- Start in the module that already owns the behavior. A standalone function
+  needs neither a static utility class nor an interface for a future service.
+  Introduce an instance when callers need distinct state with a rule to protect.
+  Length alone is not a reason to add a layer.
 - Use `const` for bindings that are not reassigned and `let` when reassignment is intentional. Preserve semantics when replacing legacy `var`, especially scope and hoisting.
-- Prefer explicit, useful types at boundaries and inference for obvious local values. Avoid replacing meaningful types with `any` to silence diagnostics.
-- Narrow uncertain inputs and explain assertions when justified. Do not add non-null assertions or compiler suppression comments to make a style patch pass.
+- For an exported API, check a real call site: what inputs does it need, what
+  does it return on absence or failure, and does it mutate anything? Annotate
+  boundaries where inference would hide or weaken the contract; let the
+  compiler infer obvious locals and contextual callback types.
+- Accept a structural shape if only its fields matter. Use a type parameter
+  when a caller needs a relationship, such as getting back the same element
+  type it supplied. A type argument is not evidence about external data:
+  accept `unknown` at an untyped boundary and narrow it at runtime.
+  Don't substitute `any`, assertions or compiler suppressions for a check.
 - Preserve the distinction between type-only imports and runtime values. Keep intentional side-effect imports and their ordering. Do not remove `.js` extensions or path aliases without checking the module resolver.
-- Prefer named exports for new unconstrained modules. Preserve existing default exports required by consumers or frameworks; changing them is a separate API migration.
-- Keep comments focused on intent, contracts and non-obvious behavior. Use TypeScript syntax for types and documentation for meaning; avoid redundant JSDoc type declarations.
-- Keep TSX conventions consistent with the framework and established project tooling. Do not impose generic function syntax where it changes component or hook behavior.
+- Give new exports names a reader can understand at the import site. Prefer
+  named exports for new unconstrained modules. Preserve existing default
+  exports required by consumers or frameworks; changing them is a migration.
+- Write JSDoc for callers of public exports: explain what the signature leaves
+  out, such as side effects, ordering or failure. Use TypeScript, not JSDoc
+  type annotations, to express types.
+- In TSX, preserve the project's JSX runtime, component props, event timing
+  and hook order. Keep straightforward expressions inline; don't extract a
+  component or hook solely to shorten a function.
+- As a project preference, use a blank line after a guard that exits and
+  between a state change and the subsequent return when they are distinct
+  steps. Keep the check next to the operation it governs. Follow the project's
+  formatter rather than introducing a new rule for whitespace.
 
 ## Boundaries
 
