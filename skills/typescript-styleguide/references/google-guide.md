@@ -18,8 +18,12 @@ This is an independently organized paraphrase and adaptation of the Google TypeS
 | Variables | Prefer const/let to var and one declaration per statement. | [Local declarations](https://google.github.io/styleguide/tsguide.html#local-variable-declarations) |
 | Object construction | Prefer literals to generic Array/Object constructors when semantics permit. | [Arrays](https://google.github.io/styleguide/tsguide.html#array-literals), [objects](https://google.github.io/styleguide/tsguide.html#object-literals) |
 | Functions | Prefer focused functions; around forty lines prompts consideration, without a hard cap. | [Function length](https://google.github.io/styleguide/tsguide.html#function-length) |
-| Types | Use useful inference, specific types and unknown rather than unchecked any where appropriate. | [Type system](https://google.github.io/styleguide/tsguide.html#type-system) |
-| Documentation | Explain meaningful contracts and changes; avoid comments that restate syntax. | [Comments](https://google.github.io/styleguide/tsguide.html#comments-documentation) |
+| Types | Infer trivial local types. Return annotations can clarify a boundary or satisfy project policy; Google does not require one on every function. | [Inference](https://google.github.io/styleguide/tsguide.html#type-inference), [return types](https://google.github.io/styleguide/tsguide.html#return-types) |
+| Object shapes and generics | Use interfaces for named structural object shapes, not classes merely listing fields. Avoid APIs whose type parameter occurs only in the result. | [Structural types](https://google.github.io/styleguide/tsguide.html#use-structural-types), [return-only generics](https://google.github.io/styleguide/tsguide.html#return-type-only-generics) |
+| Runtime checks | Use `unknown` for an unknown value and narrow it before use. Neither `as` nor `!` checks a value at runtime. | [Assertions](https://google.github.io/styleguide/tsguide.html#type-and-non-nullability-assertions), [unknown](https://google.github.io/styleguide/tsguide.html#any-unknown) |
+| Exports | Use named exports, expose only what other modules need, and export individual functions rather than static classes for namespacing. | [Exports](https://google.github.io/styleguide/tsguide.html#exports), [container classes](https://google.github.io/styleguide/tsguide.html#container-classes) |
+| Names | Use `UpperCamelCase` for types and TSX components, `lowerCamelCase` for ordinary functions and parameters. Short local names can work in a tiny scope; that exception does not extend to exported API parameters. | [Names](https://google.github.io/styleguide/tsguide.html#descriptive-names), [identifier categories](https://google.github.io/styleguide/tsguide.html#naming-rules-by-identifier-type) |
+| Documentation | Document top-level exports for callers, except tooling-only exports. Explain non-obvious parameters, results and members without repeating TS types in tags. | [Export documentation](https://google.github.io/styleguide/tsguide.html#document-all-top-level-exports-of-modules), [JSDoc types](https://google.github.io/styleguide/tsguide.html#jsdoc-type-annotations) |
 | Scope | Keep opportunistic style churn separate; generated source is largely exempt. | [Policies](https://google.github.io/styleguide/tsguide.html#policies) |
 
 For naming, control flow, exceptions or classes, inspect the matching source section before claiming a nuanced requirement. Do not infer a general ban from a single example.
@@ -35,9 +39,93 @@ These are deliberate integration policies, not claims that Google prescribes the
 5. **Review-only is read-only.** Present a patch suggestion or explanation without mutating files when that is the user's request.
 6. **Separate style from behavior.** Use a behavior test if a refactor changes control flow or data handling. Do not claim a spelling or formatting check proves runtime behavior.
 
+### Original examples: design for the caller
+
+The following examples are local, not Google samples. Start with a function in
+the existing module. Introduce a new type only for a contract the caller or
+implementation actually uses.
+
+#### Keep the matched element's type
+
+```ts
+interface Tagged {
+  readonly tag: string;
+}
+
+/** Returns the first matching item itself, or undefined if none matches. */
+export function findByTag<T extends Tagged>(
+  items: readonly T[],
+  tag: string,
+): T | undefined {
+  return items.find(item => item.tag === tag);
+}
+
+const notes = [{tag: 'work', title: 'Handoff'}];
+const title = findByTag(notes, 'work')?.title; // string | undefined
+```
+
+The constraint says what the implementation reads; the repeated `T` preserves
+the caller's element type. A signature of
+`findByTag(items: readonly Tagged[], tag: string): Tagged | undefined`
+would accept `notes` but hide `title` on the result. Conversely, a predicate
+`hasTag(item: Tagged, tag: string): boolean` needs no type parameter: no
+caller-specific type comes back. Don't promise `T` and then construct just a
+`{tag}` object. See the [TypeScript handbook on constrained values](https://www.typescriptlang.org/docs/handbook/2/functions.html#working-with-constrained-values).
+
+#### Check the value before changing state
+
+```ts
+/** Adds a new nonempty string verbatim. Returns false without changing tags otherwise. */
+export function addTag(tags: Set<string>, candidate: unknown): boolean {
+  if (typeof candidate !== 'string' || candidate === '' || tags.has(candidate)) {
+    return false;
+  }
+
+  tags.add(candidate);
+
+  return true;
+}
+```
+
+`tags.add(candidate as string)` alone compiles but lets a number into the set.
+`parse<T>(text: string): T` backed only by `JSON.parse` has the same flaw:
+the caller chooses `T`, but the data never proved it. Check the fields the
+consumer needs, or use the project's existing decoder. Don't add a schema
+library for style. Here a caller-owned set and a function suffice; a dedicated
+class would only be justified if an owner needed to control changes to it.
+The blank lines separate rejection, mutation and result for the reader; that
+spacing is a project preference, not a Google rule.
+
+#### Name a TSX callback by what the component delivers
+
+In a project with button JSX and click handlers, the parent needs the selected
+tag, not a DOM event. Keep that choice visible at the call site:
+
+```tsx
+interface TagButtonProps {
+  readonly tag: string;
+  readonly onSelectTag: (tag: string) => void;
+}
+
+/** Reports the displayed tag when the button is activated. */
+export function TagButton({tag, onSelectTag}: TagButtonProps) {
+  return <button type="button" onClick={() => onSelectTag(tag)}>{tag}</button>;
+}
+```
+
+`onClick={onSelectTag(tag)}` invokes the callback during rendering, not on
+activation. Preserve the JSX runtime, required exports and event types of the
+actual framework. Don't rename a published prop or move a hook below a
+conditional return to match the shape of this example.
+
 ## Import conversion caution
 
-The official TypeScript documentation states that type-only imports are erased. With `verbatimModuleSyntax`, unmarked imports/exports are preserved while type-marked forms are removed. A type-only rewrite can therefore remove required runtime initialization. Inspect side effects and preserve a deliberate side-effect import when needed.
+With `verbatimModuleSyntax`, `import type {Tag} from './tags.js'` disappears.
+`import {type Tag} from './tags.js'` instead leaves an empty import that still
+loads the module. Before converting either form, check whether evaluation
+registers anything. If registration is required, preserve an explicit
+`import './tags.js'` in the correct order. A class used with `instanceof` is
+a runtime value and needs an ordinary value import.
 
 [TypeScript module syntax](https://www.typescriptlang.org/tsconfig/verbatimModuleSyntax.html). Documentation checked through Context7 `/microsoft/typescript-website` on 2026-11-17. This explains semantics; it does not instruct the agent to enable that compiler option.
 

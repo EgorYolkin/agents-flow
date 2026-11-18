@@ -9,7 +9,7 @@ Barnett. Retrieved 2026-11-17 at Google styleguide revision
 
 - [Short guide](https://github.com/google/styleguide/blob/a9c5f82b19811f1552d73df384a9f9d7c75ca16e/vimscriptguide.md)
 - [Detailed guide](https://github.com/google/styleguide/blob/a9c5f82b19811f1552d73df384a9f9d7c75ca16e/vimscriptfull.md)
-- [Upstream license](https://github.com/google/styleguide/blob/a9c5f82b19811f1552d73df384a9f9d7c75ca16e/LICENSE): CC BY 3.0 for guide text; upstream repository identifies code samples as Apache 2.0.
+- [Upstream license](https://github.com/google/styleguide/blob/a9c5f82b19811f1552d73df384a9f9d7c75ca16e/LICENSE) and [licensing statement](https://github.com/google/styleguide/blob/a9c5f82b19811f1552d73df384a9f9d7c75ca16e/README.md#licensing): CC BY 3.0 for guide text; Apache 2.0 for upstream code samples.
 
 This is a selective adaptation, not an official Google skill. Compatibility,
 minimal-diff, and safe-validation guidance below is added for agent workflows.
@@ -34,6 +34,91 @@ The short guide's prose around `\m` is imprecise: it describes `\m` alongside
 full guide permits an intentional choice among magic modes. Never add flags to
 a user-supplied pattern that is intended to preserve the user's choices.
 
+## What a caller can rely on
+
+The pinned detailed guide's **Variables** and **Usage Guide → Functions**
+distinguish script-private helpers from named autoload functions. Use `...`
+for optional arguments; pass a List as one argument for a collection. The
+**Language Guide** recommends explicit type checks when Vim might coerce
+values, catchable exceptions for library code, and dictionary methods for
+encapsulated objects, not ordinary helpers. **Documentation** recommends
+vimdoc; **Exceptions** calls for documenting thrown errors with `@throws`.
+
+For this skill, keep the project's existing documentation format. Give a
+caller enough information to use a new public function without inspecting
+it: for a List or Dictionary, name the expected element types or keys and
+say if the caller's value is modified. Distinguish a missing result from
+an invalid argument. On a user-facing command also describe accepted flags,
+range or bang when they affect the operation. Do not make a private helper
+public merely so it can have a help tag.
+
+## Original legacy Vimscript examples
+
+These examples are local to this skill, not samples from Google. If a caller
+only needs a display name for a file path, nothing needs to outlive the call.
+This helper belongs in the script that displays it:
+
+```vim
+function! s:DisplayName(path) abort
+  if empty(a:path)
+    return '[untitled]'
+  endif
+
+  return fnamemodify(a:path, ':t')
+endfunction
+```
+
+Now suppose a caller **must** leave a label for a later call on the same
+buffer. In an existing plugin, the following public functions belong in
+`autoload/labelbox.vim` on the runtime path. The `b:` variable follows the
+buffer, not the window displaying it; wiping the buffer discards the label.
+
+```vim
+" Replace the current buffer's pending label with a nonempty String.
+" Throws labelbox:InvalidLabel without changing the old label on bad input.
+" Call for its effect; there is no meaningful return value.
+function! labelbox#Remember(label) abort
+  if type(a:label) != type('') || empty(a:label)
+    throw 'labelbox:InvalidLabel'
+  endif
+
+  let b:labelbox_pending_label = a:label
+endfunction
+
+
+" Return and clear this buffer's pending String, or return '' if none exists.
+function! labelbox#Take() abort
+  if !exists('b:labelbox_pending_label')
+    return ''
+  endif
+
+  let l:label = b:labelbox_pending_label
+  unlet b:labelbox_pending_label
+
+  return l:label
+endfunction
+```
+
+Contrast a script-wide slot. This legacy script returns `'draft'` even when
+`s:TakeLabel()` is called from another buffer: `s:` makes the name private,
+not buffer-local.
+
+```vim
+let s:pending_label = 'draft'
+
+function! s:TakeLabel() abort
+  let l:label = get(s:, 'pending_label', '')
+  unlet! s:pending_label
+
+  return l:label
+endfunction
+```
+
+For the public version, remember `'draft'` in buffer A, then call `Take` in
+buffer B: it must return `''` without consuming A's value. In A the first
+call returns `'draft'` and the next `''`. A buffer variable and two functions
+express that lifetime without a global registry, object factory, or autocmd.
+
 ## Modern compatibility adaptations
 
 - Google recommends maktaba-based plugin layout and metadata. This skill does
@@ -55,3 +140,7 @@ nonrecursive mappings. In particular, `<Plug>` in a RHS has special remapping
 behavior even in a nonrecursive mapping. Do not infer ordinary recursion rules
 from the command name alone. These living docs supplement, but do not replace,
 the project's minimum-version documentation.
+
+For the legacy examples, see also Vim's [variable scopes](https://github.com/vim/vim/blob/master/runtime/doc/eval.txt)
+(`:help buffer-variable`) and [autoload lookup](https://github.com/vim/vim/blob/master/runtime/doc/userfunc.txt)
+(`:help autoload-functions`).

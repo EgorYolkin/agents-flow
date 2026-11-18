@@ -65,12 +65,13 @@ Codex, Claude Code, OMP, Pi, OpenCode или любом другом. Не пе�
 | `git-guide` | `git-guide` | История, ветки задач, изоляция, коммиты и восстановление Git |
 | `init` | `init` | Создание и обновление contributor guide `AGENTS.md` |
 | `dockerfile-styleguide` | `dockerfile-styleguide` | Dockerfile и `.dockerignore` |
+| `go-styleguide` | `go-styleguide` | Go: `gofmt`, имена, комментарии к API, ошибки, интерфейсы и параметры типов |
 | `python-styleguide` | `python-styleguide` | Python: стиль, импорты, типы, docstrings и ответственность функций |
 | `html-css-styleguide` | `html-css-styleguide` | HTML, CSS, шаблоны |
 | `shell-styleguide` | `shell-styleguide` | Bash и POSIX sh |
-| `typescript-styleguide` | `typescript-styleguide` | TypeScript и TSX |
-| `swift-styleguide` | `swift-styleguide` | Swift: проверяй API в месте вызова, сопоставляй `///` с поведением и уточняй, должна ли копия иметь независимое состояние |
-| `vimscript-styleguide` | `vimscript-styleguide` | Vimscript |
+| `typescript-styleguide` | `typescript-styleguide` | TypeScript и TSX: когда дженерик сохраняет тип результата, зачем проверять внешние данные и как описывать экспорты и props |
+| `swift-styleguide` | `swift-styleguide` | Swift |
+| `vimscript-styleguide` | `vimscript-styleguide` | Vimscript: документация autoload-функций, области видимости и время жизни состояния буфера с учётом диалекта |
 | `markdown-styleguide` | `markdown-styleguide` | Markdown-документация |
 
 Предложи небольшой набор по стеку пользователя и объясни назначение каждого.
@@ -259,6 +260,13 @@ workflow и небольшую выборку истории; не выдава�
 целевого проекта или его инструментами сообщи о нём; не меняй настройки молча.
 Обычная фраза «используй shell-styleguide» — запрос агенту, а не универсальная
 команда терминала; конкретный синтаксис вызова зависит от harness.
+
+Для Go используй `go-styleguide`. Проверь версию языка в `go.mod` и вызовы
+изменённого API. По сигнатуре и комментарию должно быть понятно, какие
+результаты допустимо использовать при ошибке. Не вводи интерфейс, если
+потребителю достаточно конкретного типа. В reference показано, когда нужен
+`io.Reader`, а когда связь типов лучше выразить параметром типа. Сохраняй
+формат `gofmt` и не меняй версию Go ради примера.
 
 Если работу выполняет subagent, явно передай ему нужный скилл, правила проекта,
 область изменений и критерии результата. Не предполагай, что он автоматически
