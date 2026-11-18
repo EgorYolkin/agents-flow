@@ -144,6 +144,7 @@ class MessageBuffer:
 
         if self._finished:
             raise ValueError("message already finished")
+
         self._data.extend(chunk)
 
     def finish(self) -> bytes:
@@ -152,6 +153,7 @@ class MessageBuffer:
         """
 
         self._finished = True
+
         return bytes(self._data)
 ```
 

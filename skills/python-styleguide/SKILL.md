@@ -59,6 +59,9 @@ are deliberate adaptations, not claims about Google's required formatting.
   immediately preceding operation stays adjacent to it, without a blank line.
   Keep its dependent statements in the same block; do not space every statement
   or every `if` apart mechanically.
+- After a guard that exits on failure, leave one blank line before the
+  successful path. After changing object state, leave one blank line before
+  returning the result. Keep the `raise` inside its guard.
 - Use whitespace to expose existing meaning, not to reorder side effects or
   invent helpers and classes. See the
   [layout example](references/google-guide.md#preferred-layout-example).
