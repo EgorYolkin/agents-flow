@@ -52,7 +52,7 @@ https://raw.githubusercontent.com/EgorYolkin/agents-flow/main/docs/GUIDE.md
 | [Git](skills/git-guide/SKILL.md) | Ветки задач, worktrees, изучение истории и осмысленные коммиты без захвата чужих изменений |
 | [Init](skills/init/SKILL.md) | Подготовка проекта для агента: архитектура, команды, проверки, `AGENTS.md`, Git и проектный `GIT_WORKFLOW.md` |
 | [Dockerfile](skills/dockerfile-styleguide/SKILL.md) | Dockerfile и `.dockerignore`: сборка, кэширование, размер образа и безопасность |
-| [Python](skills/python-styleguide/SKILL.md) | Google PyGuide: импорты, типы, docstrings и ответственность функций с сохранением API |
+| [Python](skills/python-styleguide/SKILL.md) | Google PyGuide: именование, импорты, дженерики, docstrings и выбор между функцией и классом без лишних абстракций |
 | [HTML/CSS](skills/html-css-styleguide/SKILL.md) | Разметка, стили и шаблоны с сохранением доступности и используемых селекторов |
 | [Shell](skills/shell-styleguide/SKILL.md) | Bash и sh: quoting, аргументы, обработка ошибок и совместимость |
 | [TypeScript](skills/typescript-styleguide/SKILL.md) | TypeScript и TSX: типы, импорты, именование и читаемость |
@@ -114,6 +114,8 @@ https://raw.githubusercontent.com/EgorYolkin/agents-flow/main/docs/GUIDE.md
 Python-скилл также задаёт оформление функций и классов: `"""` на отдельных
 строках, пустая строка после docstring и между смысловыми блоками. Связанные
 операции и дополняющие их `if` остаются рядом, без лишних пустых строк.
+После проверки с досрочным выходом и между изменением состояния и `return`
+оставляется пустая строка.
 
 ## Что ожидать
 
