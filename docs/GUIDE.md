@@ -67,7 +67,7 @@ Codex, Claude Code, OMP, Pi, OpenCode или любом другом. Не пе�
 | `dockerfile-styleguide` | `dockerfile-styleguide` | Dockerfile и `.dockerignore` |
 | `python-styleguide` | `python-styleguide` | Python: стиль, импорты, типы, docstrings и ответственность функций |
 | `html-css-styleguide` | `html-css-styleguide` | HTML, CSS, шаблоны |
-| `shell-styleguide` | `shell-styleguide` | Bash и POSIX sh |
+| `shell-styleguide` | `shell-styleguide` | Bash и POSIX sh: имена команд и функций, границы аргументов, потоки вывода и коды возврата |
 | `typescript-styleguide` | `typescript-styleguide` | TypeScript и TSX |
 | `swift-styleguide` | `swift-styleguide` | Swift |
 | `vimscript-styleguide` | `vimscript-styleguide` | Vimscript |

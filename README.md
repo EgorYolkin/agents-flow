@@ -54,7 +54,7 @@ https://raw.githubusercontent.com/EgorYolkin/agents-flow/main/docs/GUIDE.md
 | [Dockerfile](skills/dockerfile-styleguide/SKILL.md) | Dockerfile и `.dockerignore`: сборка, кэширование, размер образа и безопасность |
 | [Python](skills/python-styleguide/SKILL.md) | Google PyGuide: именование, импорты, дженерики, docstrings и выбор между функцией и классом без лишних абстракций |
 | [HTML/CSS](skills/html-css-styleguide/SKILL.md) | Разметка, стили и шаблоны с сохранением доступности и используемых селекторов |
-| [Shell](skills/shell-styleguide/SKILL.md) | Bash и sh: quoting, аргументы, обработка ошибок и совместимость |
+| [Shell](skills/shell-styleguide/SKILL.md) | Bash и POSIX sh: аргументы, stdout и stderr, коды возврата; когда нужна функция |
 | [TypeScript](skills/typescript-styleguide/SKILL.md) | TypeScript и TSX: типы, импорты, именование и читаемость |
 | [Swift](skills/swift-styleguide/SKILL.md) | Swift: оформление, API, обработка optional и документация |
 | [Vim script](skills/vimscript-styleguide/SKILL.md) | Vimscript: читаемость, mappings и совместимость с версиями редактора |
