@@ -58,7 +58,7 @@ https://raw.githubusercontent.com/EgorYolkin/agents-flow/main/docs/GUIDE.md
 | [Shell](skills/shell-styleguide/SKILL.md) | Bash и sh: quoting, аргументы, обработка ошибок и совместимость |
 | [TypeScript](skills/typescript-styleguide/SKILL.md) | TypeScript и TSX: типы и имена публичного API, проверка входных данных и контракты компонентов |
 | [Swift](skills/swift-styleguide/SKILL.md) | Swift: оформление, API, обработка optional и документация |
-| [Vim script](skills/vimscript-styleguide/SKILL.md) | Vimscript: читаемость, mappings и совместимость с версиями редактора |
+| [Vim script](skills/vimscript-styleguide/SKILL.md) | Vimscript: контракты autoload-функций, состояние буфера, клавиатурные привязки и совместимость |
 | [Markdown](skills/markdown-styleguide/SKILL.md) | README, документация и инструкции: структура, ссылки и примеры |
 
 ## Как пользоваться

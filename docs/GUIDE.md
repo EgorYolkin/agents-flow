@@ -71,7 +71,7 @@ Codex, Claude Code, OMP, Pi, OpenCode или любом другом. Не пе�
 | `shell-styleguide` | `shell-styleguide` | Bash и POSIX sh |
 | `typescript-styleguide` | `typescript-styleguide` | TypeScript и TSX: когда дженерик сохраняет тип результата, зачем проверять внешние данные и как описывать экспорты и props |
 | `swift-styleguide` | `swift-styleguide` | Swift |
-| `vimscript-styleguide` | `vimscript-styleguide` | Vimscript |
+| `vimscript-styleguide` | `vimscript-styleguide` | Vimscript: документация autoload-функций, области видимости и время жизни состояния буфера с учётом диалекта |
 | `markdown-styleguide` | `markdown-styleguide` | Markdown-документация |
 
 Предложи небольшой набор по стеку пользователя и объясни назначение каждого.
