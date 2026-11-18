@@ -23,12 +23,17 @@ require context beyond a style guide.
 4. Check affected contracts before changing names, imports, signatures, default
    values, annotations, or exception handling. Public keyword arguments,
    re-exports, serialization fields, and runtime annotation consumers matter.
+   When introducing or reviewing names, apply the
+   [naming conventions](references/google-guide.md#naming-conventions)
+   within those contracts.
    For a changed public API, check whether annotations preserve relationships
    between arguments, fields, and results. Could a caller use it from its
    signature and docstring alone? See the
    [typed contract examples](references/google-guide.md#typed-api-contracts).
-5. Make focused changes. Extract a responsibility when it has a meaningful
-   boundary, inputs, and result; avoid helpers that only hide a line of code.
+5. Start with the simplest change that serves the current caller and fits the
+   existing module. Do not design layers or extension points for hypothetical
+   requirements. Extract a responsibility when it has meaningful inputs and
+   results; avoid helpers that only hide a line of code.
    Introduce a class when shared state, invariants, or a lifecycle justify it,
    not because a function crosses a line-count threshold.
    Compare the [function and object examples](references/google-guide.md#choosing-a-function-or-an-object)

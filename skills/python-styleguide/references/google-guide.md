@@ -35,6 +35,21 @@ Keep attribution when redistributing adaptations.
 Consult upstream sections 2.1–2.5, 2.7, 2.12, 3.2–3.4, 3.8, 3.11,
 and 3.13–3.19 for details and exceptions; this selection is not exhaustive.
 
+### Naming conventions
+
+Under §3.16, use `snake_case` for packages, modules, functions, methods,
+parameters, and attributes; `CapWords` for classes (`HTTPClient`); and
+`UPPER_SNAKE_CASE` for module constants (`MAX_CHUNK_SIZE`). Use underscores,
+not hyphens, in importable module names. Mark internal names with one leading
+underscore (`_finished`); do not invent `__dunder__` names or rely on name
+mangling for privacy.
+
+Match specificity to scope: `i` can be clear in a short loop, but prefer
+`chunk_index` when the value crosses several steps. Name the relationship
+or purpose (`prices_by_symbol`), not the container (`price_dict`). Use the
+project's domain vocabulary; preserve external field names and public
+keyword parameters even if you would choose different names for new code.
+
 ## Typed API contracts
 
 In §2.21.4 Google calls for annotations and build-time type checking when
@@ -156,6 +171,12 @@ class MessageBuffer:
 
         return bytes(self._data)
 ```
+
+Start with the existing module and a direct call. Google §3.16.2 allows
+related classes and functions to share a module. As a project adaptation, do
+not create a repository interface, factory, or service layer for one lookup
+just because another backend might appear. Revisit that decision when an actual
+caller needs interchangeable backends or an existing boundary requires one.
 
 For dependency design, look at what the consumer actually uses. If a price
 calculation needs only `quote(symbol)`, passing a callable may suffice. Consider
