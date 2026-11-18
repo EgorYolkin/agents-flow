@@ -68,7 +68,7 @@ Codex, Claude Code, OMP, Pi, OpenCode или любом другом. Не пе�
 | `python-styleguide` | `python-styleguide` | Python: стиль, импорты, типы, docstrings и ответственность функций |
 | `html-css-styleguide` | `html-css-styleguide` | HTML, CSS, шаблоны |
 | `shell-styleguide` | `shell-styleguide` | Bash и POSIX sh |
-| `typescript-styleguide` | `typescript-styleguide` | TypeScript и TSX |
+| `typescript-styleguide` | `typescript-styleguide` | TypeScript и TSX: когда дженерик сохраняет тип результата, зачем проверять внешние данные и как описывать экспорты и props |
 | `swift-styleguide` | `swift-styleguide` | Swift |
 | `vimscript-styleguide` | `vimscript-styleguide` | Vimscript |
 | `markdown-styleguide` | `markdown-styleguide` | Markdown-документация |
