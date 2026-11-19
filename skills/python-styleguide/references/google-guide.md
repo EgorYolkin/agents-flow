@@ -75,7 +75,7 @@ _T = TypeVar("_T")
 
 def first(items: Sequence[_T]) -> _T:
     """
-    Return the first element without removing it.
+    return the first element without removing it
 
     Args:
         items: Elements in selection order.
@@ -113,8 +113,8 @@ document a property on its getter (§3.8.3–4).
 - **Existing tooling owns formatting.** Keep the project's chosen formatter
   and line length. Explain a difference from Google's baseline rather than
   repeatedly undoing formatter output. Do not install a competing formatter.
-  The user-selected docstring and block layout below is an explicit adaptation;
-  flag conflicting target-project settings instead of silently normalizing it.
+  The [docstring and comment style](../SKILL.md#docstrings-and-comments) is an
+  explicit adaptation; flag conflicting target-project settings.
 - **Tool coverage is partial.** Ruff, Pylint, type checkers, and tests cover
   different concerns. An existing Ruff setup is not proof that every Google
   rule is enforced. Do not enable all rules or blanket suppressions to make a
@@ -133,6 +133,8 @@ document a property on its getter (§3.8.3–4).
   may remain one function; length alone is insufficient evidence of a defect.
 - **Libraries are project choices.** Examples in Google's guide do not authorize
   adding Google-specific packages or changing the application's entrypoint.
+  Follow the skill's [dependency workflow](../SKILL.md#dependencies) for `uv`
+  and `requirements.txt`; it is not an upstream Google rule.
 
 ### Choosing a function or an object
 
@@ -145,7 +147,7 @@ buffer and enforce a rule across calls:
 ```python
 class MessageBuffer:
     """
-    Collect message fragments until the message is finished.
+    collect message fragments until the message is finished
     """
 
     def __init__(self) -> None:
@@ -154,7 +156,10 @@ class MessageBuffer:
 
     def feed(self, chunk: bytes) -> None:
         """
-        Append a fragment. Raise ValueError if the message is finished.
+        append a fragment unless the message is finished
+
+        Raises:
+            ValueError: The message is finished.
         """
 
         if self._finished:
@@ -164,7 +169,7 @@ class MessageBuffer:
 
     def finish(self) -> bytes:
         """
-        Return the complete message and reject further fragments.
+        return the complete message and reject further fragments
         """
 
         self._finished = True
@@ -187,20 +192,23 @@ direction and runtime consumers before moving imports under `TYPE_CHECKING`.
 
 ## Preferred layout example
 
-The user requests docstring delimiters on separate lines, one blank line after
-the docstring, and compact semantic blocks separated by blank lines. This applies
-to class and method docstrings as well as standalone functions, including short
-descriptions. It does not require adding redundant docstrings everywhere.
+The [skill's layout](../SKILL.md#docstrings-and-comments) applies to modules,
+classes, methods, and functions, including short docstrings. It does not
+require adding redundant docstrings everywhere.
 
-This original Python 3.9+ example constructs arguments without running a download. The
-method separates destination setup, command construction, and the return. Each
-conditional remains next to the operation it complements. The class illustrates
-class layout; a standalone function can be preferable when no shared state exists.
+This original Python 3.9+ example constructs arguments without running a
+download. The method separates destination setup, command construction, and
+the return. Each conditional remains next to the operation it complements.
+The class illustrates class layout; a function can suffice without shared state.
 
 ```python
+"""
+construct download command arguments
+"""
+
 class DownloadCommand:
     """
-    Build download arguments using a shared default destination.
+    build download arguments using a shared default destination
 
     Attributes:
         default_output: Destination used when build receives an empty output.
@@ -208,7 +216,7 @@ class DownloadCommand:
 
     def __init__(self, default_output: str) -> None:
         """
-        Store the default output path.
+        store the default output path
         """
 
         self.default_output = default_output
@@ -217,13 +225,14 @@ class DownloadCommand:
         self, url: str, output: str = "", resume: bool = False
     ) -> list[str]:
         """
-        Return command arguments without executing the download.
+        return command arguments without executing the download
         """
 
         destination = output
         if not destination:
             destination = self.default_output
 
+        # keep option guards next to the argument list they modify
         command = ["curl", "--output", destination]
         if resume:
             command.extend(["--continue-at", "-"])
