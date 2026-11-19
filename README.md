@@ -38,7 +38,7 @@
 | [Init](skills/init/SKILL.md) | Подготовка проекта для агента: архитектура, команды, проверки, `AGENTS.md`, Git и проектный `GIT_WORKFLOW.md` |
 | [Dockerfile](skills/dockerfile-styleguide/SKILL.md) | Dockerfile и `.dockerignore`: сборка, кэширование, размер образа и безопасность |
 | [Go](skills/go-styleguide/SKILL.md) | Имена и `gofmt`, контракты экспортируемого API, ошибки и выбор между конкретным типом, интерфейсом и параметром типа |
-| [Python](skills/python-styleguide/SKILL.md) | Google PyGuide: именование, импорты, дженерики, docstrings и выбор между функцией и классом без лишних абстракций |
+| [Python](skills/python-styleguide/SKILL.md) | Именование, импорты, типы, docstrings, комментарии и зависимости через `uv` и `requirements.txt` |
 | [HTML/CSS](skills/html-css-styleguide/SKILL.md) | Разметка, стили и шаблоны с сохранением доступности и используемых селекторов |
 | [Shell](skills/shell-styleguide/SKILL.md) | Bash и sh: quoting, аргументы, обработка ошибок и совместимость |
 | [TypeScript](skills/typescript-styleguide/SKILL.md) | TypeScript и TSX: типы и имена публичного API, проверка входных данных и контракты компонентов |
@@ -108,9 +108,12 @@
 попросите применить его явно. Для смешанной задачи можно использовать несколько
 скиллов: например, Docker и Shell для образа с entrypoint-скриптом.
 
-Python-скилл также задаёт оформление функций и классов: `"""` на отдельных
-строках, пустая строка после docstring и между смысловыми блоками. Связанные
-операции и дополняющие их `if` остаются рядом, без лишних пустых строк.
+Python-скилл требует использовать `uv` для зависимостей и всегда вести
+`requirements.txt`, даже если сторонних библиотек нет. В docstrings модулей,
+классов, функций и методов `"""` стоят на отдельных строках. Краткие описания
+в docstrings и комментарии пишутся на английском, со строчной буквы и без
+точки в конце. После docstring и между смысловыми блоками оставляется пустая
+строка. Связанные операции и дополняющие их `if` остаются рядом.
 После проверки с досрочным выходом и между изменением состояния и `return`
 оставляется пустая строка.
 
@@ -124,8 +127,8 @@ Python-скилл также задаёт оформление функций и
 
 ```sh
 cd examples/fastapi-health
-python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
+uv venv
+uv pip install -r requirements.txt
 .venv/bin/python -m uvicorn main:app
 ```
 

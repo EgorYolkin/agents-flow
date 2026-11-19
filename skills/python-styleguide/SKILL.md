@@ -46,17 +46,45 @@ require context beyond a style guide.
 7. Review the final diff and report checks actually performed. Formatting and
    lint success do not prove behavior preservation or full guide compliance.
 
+## Dependencies
+
+Use `uv` to install and manage third-party Python libraries. Always include
+and maintain a `requirements.txt` at the root of each Python project, even
+when it has no third-party dependencies. Keep the file in sync when
+dependencies change.
+
+- If `requirements.txt` is the project's dependency list, update it directly
+  and install with `uv pip install -r requirements.txt` in a virtual environment.
+- If the project uses `pyproject.toml` and `uv.lock` to manage dependencies,
+  update them with `uv` and regenerate `requirements.txt` with
+  `uv export --format requirements.txt --output-file requirements.txt`.
+  Do not edit a generated export by hand.
+
+Do not migrate an existing dependency workflow during an unrelated edit.
+If project rules conflict with these requirements, explain the conflict.
+
+## Docstrings and comments
+
+Apply these user-selected conventions to modules, classes, functions, and
+methods. They are adaptations, not Google requirements.
+
+- Put the opening and closing `"""` on their own lines, even for short
+  docstrings. Keep the docstring as the first statement, before imports in a
+  module. Start the English summary with a lowercase letter and omit the
+  trailing period. Preserve the required spelling of names and identifiers.
+- Leave one blank line after the closing docstring before the next statement.
+  Do not add a blank line inside the docstring for that separation.
+- Write all prose comments in English, starting with a lowercase letter and
+  without a trailing period. Preserve the syntax of shebangs, encoding
+  declarations, and tool directives.
+
+See the [layout example](references/google-guide.md#preferred-layout-example).
+
 ## Function and class layout
 
-Apply these user-selected conventions to functions, methods, and classes. They
-are deliberate adaptations, not claims about Google's required formatting.
+Apply these user-selected whitespace conventions to functions, methods, and
+classes.
 
-- Put opening and closing triple double quotes (`"""`) on their own lines,
-  with the docstring text between them, even for a one-sentence description.
-  Keep the docstring as the first statement in its function or class.
-- Leave one blank line after the closing docstring before the implementation,
-  class attributes, or first method. Do not insert a blank line inside a
-  docstring merely to create this separation.
 - Separate meaningful phases with one blank line: for example, environment
   setup, download-command construction with its options, then returning the
   result. Use the phases actually present; do not force a three-block template.

@@ -1,4 +1,6 @@
-"""FastAPI application for the health check example."""
+"""
+serve the health check example with FastAPI
+"""
 
 import fastapi
 
