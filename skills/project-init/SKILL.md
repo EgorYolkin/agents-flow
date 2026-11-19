@@ -1,13 +1,13 @@
 ---
 name: project-init
-description: Orient an agent at project kickoff. Use for a new or existing project when the user wants to establish the first deliverable, select relevant agents-flow skills, and agree on a way to verify it. Return the working context in chat by default.
+description: Orient an agent at project kickoff. Use for a new or existing project when the user wants to establish the first deliverable, select relevant agents-flow skills, and agree on a way to verify it. Return the working context in chat by default. When the user authorizes implementation, load init before implementing if the target repository lacks agent onboarding.
 ---
 
 # Project Init
 
 Turn a project kickoff into a first task another agent can pick up. A kickoff
-alone is read-only. Keep the brief in chat. Requests to generate contributor
-instructions belong to the separate `init` skill. Do not invoke it implicitly.
+alone is read-only. Keep the brief in chat. Use the separate `init` skill for
+repository onboarding, not for choosing the first deliverable.
 
 ## Establish the first outcome
 
@@ -36,6 +36,26 @@ Include `go-styleguide` only if the task reaches Go argument handling. An
 observable check is whether the binary receives that filename as one argument.
 For infrastructure, distinguish reviewing a plan from applying it to an
 environment. Name which outcome the user requested.
+
+## Prepare the repository before implementation
+
+Apply this step once the user authorizes implementation, whether in the
+initial request or in a follow-up such as “go ahead” after the brief. Naming
+the first deliverable alone is not authorization to start writing.
+
+Check the intended repository root, not just the directory that will contain
+the deliverable. If there is no Git repository or either `AGENTS.md` or
+`GIT_WORKFLOW.md` is missing at that root, load `init` through the active
+harness (for example, read `skill://init` in OMP). Follow its workflow before
+implementing the first deliverable. Preserve existing instructions and do not
+create a nested repository for a subdirectory of an existing one. If all three
+are present, follow the existing instructions without rerunning onboarding,
+unless the user asks to refresh it. Honor a request to skip onboarding.
+
+If the required `init` skill is unavailable, say so and offer to continue
+without onboarding or install it with the user's approval. Do not silently
+substitute `git-guide`: it guides Git operations but does not prepare the
+repository's agent instructions.
 
 ## Hand off in chat
 
