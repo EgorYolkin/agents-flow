@@ -190,6 +190,31 @@ pattern. These are design choices, not Google rules. A circular import introduce
 by annotations is a different issue (§3.19.13–14): inspect the dependency
 direction and runtime consumers before moving imports under `TYPE_CHECKING`.
 
+### Finding a useful boundary
+
+As a project adaptation, follow one operation from its entry point through
+input translation, business decisions, and effects. Name the coupling and its
+consequence before proposing a split. Keep steps together when they share an
+invariant or must succeed in one transaction.
+
+Consider a checkout handler that reads a cart, calculates a discount, and
+saves a receipt:
+
+- **Testing the discount threshold needs a database.** Extract just the
+  calculation into a function that accepts cart values. It can stay in the
+  same module. Test the threshold without a database; leave the read, write,
+  and transaction with the handler. Check that a failed write still rolls
+  back as before.
+- **A CLI and a worker duplicate the entire checkout.** Have both translate
+  their inputs and call one checkout function that owns the sequence and
+  transaction. Sharing only the calculation does not prevent the callers from
+  handling a failed write differently.
+
+Translate framework or storage types at the edge when they make the rule
+depend on the external library. If several callers repeat the same storage
+mapping, give that mapping one owner; a single straightforward query can
+stay where it is.
+
 ## Preferred layout example
 
 The [skill's layout](../SKILL.md#docstrings-and-comments) applies to modules,
