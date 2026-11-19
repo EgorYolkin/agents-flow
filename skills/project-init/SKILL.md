@@ -1,20 +1,24 @@
 ---
 name: project-init
-description: Orient an agent at project kickoff. Use for a new or existing project when the user wants to establish the first deliverable, select relevant agents-flow skills, and agree on a way to verify it. Return the working context in chat by default. When the user authorizes implementation, load init before implementing if the target repository lacks agent onboarding.
+description: Orient an agent at project kickoff. Help define a user-directed first deliverable, choose relevant skills, and agree on a check. Planning is read-only. Run init when the user requests repository onboarding, or before approved implementation if onboarding is missing.
 ---
 
 # Project Init
 
-Turn a project kickoff into a first task another agent can pick up. A kickoff
-alone is read-only. Keep the brief in chat. Use the separate `init` skill for
-repository onboarding, not for choosing the first deliverable.
+Start from the current user request. A bare invocation or planning-only
+request is read-only. If the user asks to run `init` or prepare repository
+instructions, perform the onboarding below now. Do not require a product task
+first. If onboarding is the only request, report the result without proposing
+or starting application work.
 
 ## Establish the first outcome
 
-For an empty directory, use the user's description to identify who or what will
-consume the result and one observable first success. If the goal is too broad
-to choose a first task, ask the smallest question that would change the choice.
-Keep proposed stack or layout decisions provisional until selected.
+For any project, derive the first deliverable from the user's current goal.
+Repository files provide constraints and evidence, not authorization. A README
+example, tutorial, TODO, or empty directory is not a task unless the user
+selects it. If the user supplies only a path or no actionable goal, ask one
+focused question about the desired outcome and wait; do not choose a stack or
+deliverable yourself. Reuse a prior goal only when the user is continuing it.
 
 For an existing project, read applicable instructions and follow the relevant
 path from entry point to consumer. Use a few representative files, manifests
@@ -30,27 +34,21 @@ relevant install candidates. Install only as a separate requested action.
 When coverage is missing, use the project's instructions and checks. Never
 invent a skill name to fill a gap.
 
-For example, a Bash entrypoint in a Go service may split a filename containing
-spaces. Route the argument forwarding to `shell-styleguide` when available.
-Include `go-styleguide` only if the task reaches Go argument handling. An
-observable check is whether the binary receives that filename as one argument.
-For infrastructure, distinguish reviewing a plan from applying it to an
-environment. Name which outcome the user requested.
+## Run repository onboarding when requested or needed
 
-## Prepare the repository before implementation
+For an explicit request such as “run init first”, immediately load `init`
+through the active harness (in OMP, read `skill://init`) and follow its
+workflow at the requested root. Do this even if onboarding files already exist;
+preserve existing instructions. Do not just list `init` as a later step. If the
+request explicitly limits work to a plan or review, do not write anything.
 
-Apply this step once the user authorizes implementation, whether in the
-initial request or in a follow-up such as “go ahead” after the brief. Naming
-the first deliverable alone is not authorization to start writing.
-
-Check the intended repository root, not just the directory that will contain
-the deliverable. If there is no Git repository or either `AGENTS.md` or
-`GIT_WORKFLOW.md` is missing at that root, load `init` through the active
-harness (for example, read `skill://init` in OMP). Follow its workflow before
-implementing the first deliverable. Preserve existing instructions and do not
-create a nested repository for a subdirectory of an existing one. If all three
-are present, follow the existing instructions without rerunning onboarding,
-unless the user asks to refresh it. Honor a request to skip onboarding.
+Otherwise, check onboarding once the user authorizes a specific implementation,
+in the initial request or in a follow-up approving an agreed task. Approval to
+run `init` alone does not authorize implementation. Check the repository root,
+not just the deliverable directory. Load and follow `init` before task edits
+if Git, `AGENTS.md`, or `GIT_WORKFLOW.md` is missing; otherwise use the existing
+instructions. Do not create a nested Git repository or override a request to
+skip onboarding.
 
 If the required `init` skill is unavailable, say so and offer to continue
 without onboarding or install it with the user's approval. Do not silently
