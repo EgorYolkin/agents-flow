@@ -34,6 +34,11 @@ require context beyond a style guide.
    existing module. Do not design layers or extension points for hypothetical
    requirements. Extract a responsibility when it has meaningful inputs and
    results; avoid helpers that only hide a line of code.
+   Before proposing a boundary, trace one real call from input to observable
+   result. What cannot change or be tested independently today, and what is
+   the smallest change that would let it? If there is no concrete problem,
+   keep the existing boundary. See the
+   [checkout example](references/google-guide.md#finding-a-useful-boundary).
    Introduce a class when shared state, invariants, or a lifecycle justify it,
    not because a function crosses a line-count threshold.
    Compare the [function and object examples](references/google-guide.md#choosing-a-function-or-an-object)
