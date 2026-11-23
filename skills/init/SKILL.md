@@ -6,15 +6,19 @@ description: Initialize a project for agent work by inspecting architecture, too
 # Project Initialization for Agents
 
 Prepare the whole project for agent work: architecture, development commands,
-checks, local instructions, and Git workflow. Git setup is one part, not the
-purpose of the entire skill. Generate `AGENTS.md` with the exact title
-`# Repository Guidelines`; aim for 200–400 words, linking detailed Git rules
-instead of duplicating them.
+checks, local instructions, and Git workflow.
 
-The package ships only [GIT_WORKFLOW_EXAMPLE.md](GIT_WORKFLOW_EXAMPLE.md), a
-structure and style reference, not an active policy. Create or carefully update
-`GIT_WORKFLOW.md` in the target project, never in the installed skill directory.
-Adapt it to inspected evidence; do not blindly copy example policies.
+For authorized initialization, **both files are required in the target project
+root**. Create either missing file and update existing files only as needed:
+
+- `AGENTS.md`: use the exact title `# Repository Guidelines`, aim for 200–400
+  words, and link to `GIT_WORKFLOW.md` instead of duplicating its rules.
+- `GIT_WORKFLOW.md`: document the target project's Git policy. An existing
+  repository skips only `git init`, not this file. An existing `AGENTS.md`
+  does not make a missing `GIT_WORKFLOW.md` optional.
+
+[GIT_WORKFLOW_EXAMPLE.md](GIT_WORKFLOW_EXAMPLE.md) is a structure and style
+reference, not an active policy or a substitute for the target project's file.
 
 ## Inspect before writing
 
@@ -76,11 +80,6 @@ branches, commits, or instruction files. For authorized initialization:
    embed its rules or assume a fixed installation path/version. If unavailable,
    report the missing prerequisite and ask for its location or supplied rules;
    finish independent project inspection, but do not invent the user's policy.
-8. Write the target project's `GIT_WORKFLOW.md` using the example's structure.
-   Distinguish established rules, explicit choices, and recommendations.
-   Preserve existing customizations; resolve conflicts with applicable project
-   instructions rather than silently replacing them. Link to this file from
-   `AGENTS.md` and require reading it before Git work. Keep policy in one place.
 
 ## Fundamental Git safeguards
 
@@ -118,6 +117,11 @@ Apply these while initializing and capture the applicable workflow in the target
 
 ## Compose the guide
 
+Write the target project's `GIT_WORKFLOW.md` using the example's structure.
+Distinguish established rules, explicit choices, and recommendations. Preserve
+existing customizations and resolve conflicts against applicable project
+instructions rather than silently replacing them.
+
 Use Markdown headings and short, professional instructional prose. Match the
 requested language or the repository's established documentation language;
 keep the required title unchanged. Adapt the following sections to the project.
@@ -150,11 +154,10 @@ and assumptions that every repository uses npm, Python, Docker, CI, or tests.
 
 ## Preserve existing instructions
 
-For new project guides, write `AGENTS.md` and `GIT_WORKFLOW.md` in the target.
-For existing guides, make a
-focused update: retain deliberate policies, useful local knowledge, nested scope
-boundaries, and unrelated user edits. Reconcile contradictions against current
-evidence; ask only when an unresolved policy choice would materially change work.
+Retain deliberate policies, useful local knowledge, nested scope boundaries,
+and unrelated user edits in existing guides. Reconcile contradictions against
+current evidence; ask only when an unresolved policy choice would materially
+change work.
 
 Treat 200–400 words as an optimal size, not permission to delete important
 instructions. Use links to existing detailed documentation when that helps.
@@ -168,7 +171,13 @@ Follow the project's branch and commit policy for authorized edits.
 
 ## Verify and deliver
 
-Before finishing:
+For authorized initialization, open both files from the target project root
+and verify that the link in `AGENTS.md` resolves to that `GIT_WORKFLOW.md`.
+If either file is missing or unreadable, or the link does not resolve to it,
+fix the issue before reporting success. If blocked, report initialization as
+incomplete and name the affected path and the specific blocker.
+
+Then:
 
 1. Check the exact title, one H1, descriptive section headings, and closed fences.
 2. Count words; aim for 200–400 and explain any justified exception.
@@ -177,10 +186,10 @@ Before finishing:
    unless they were actually verified.
 4. Compare the diff with existing instructions and the user's requested scope.
    Remove unsupported claims, stale placeholders, sensitive details and repetition.
-5. Check that `AGENTS.md` links to the project workflow, its policies match the
-   evidence or explicitly requested rules, and existing customizations remain.
-   Verify actual Git state after initialization; distinguish an unborn HEAD
-   from a failure. Do not claim an unavailable `git-guide` was loaded.
+5. Check that the workflow policy matches the evidence or explicitly requested
+   rules and that existing customizations remain. Verify actual Git state;
+   distinguish an unborn HEAD from a failure. Do not claim an unavailable
+   `git-guide` was loaded.
 6. Report files written, approximate AGENTS word count, discovered or initialized
    Git state, policy source, own commits, checks actually performed, and blockers.
    Distinguish evidence inspection from command execution.
