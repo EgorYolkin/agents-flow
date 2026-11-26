@@ -1,0 +1,27 @@
+{
+  "skill_name": "markdown-styleguide",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Please repair this excerpt from our GitHub contributor guide and return the replacement Markdown source in chat. Step one is meant to show the *literal Markdown* a contributor should paste into a PR, including the shell fence. Right now copying the rendered sample leaves the shell block unclosed in the PR. The link in step two goes to the filtered review queue; give it a more useful label.\n\n## Request a preview\n1. Paste this example into the PR body:\n   ```markdown\n   Preview command:\n   ```sh\n   preview --theme 'Night Mode'\n   ```\n   ```\n2. Open [here](../queues/Review%20Queue.md?state=open#previews).",
+      "expected_output": "Source that renders as two ordered steps with a complete, copyable Markdown example under the first and a descriptive review-queue link under the second.",
+      "files": [],
+      "expectations": [
+        "The rendered first list item contains one literal code block showing ‘Preview command:’, the opening ```sh line, the unchanged preview --theme 'Night Mode' command, and its closing ``` line.",
+        "The queue instruction renders as the second item of the same ordered list, outside the literal example.",
+        "The link text identifies the review queue without relying on ‘here’, and the destination remains ../queues/Review%20Queue.md?state=open#previews including its query and fragment."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this proposed docs cleanup in chat, don't rewrite the page. Our help renderer uses GitHub Flavored Markdown for the body and inserts the page H1 from the title in frontmatter. It has no TOC plugin. Printed support cards already point to /help/sync#offline-mode. Source of sync.md:\n\n---\ntitle: Sync guide\n---\n\n## Offline mode\n\nChanges wait until the next connection.\n\nThe PR adds ‘# Sync guide’ and ‘[TOC]’ above the section, then renames ‘## Offline mode’ to ‘## Working offline’. The author says this is required by the Google guide. What should we keep or change before merging, and why?",
+      "expected_output": "Review comments distinguish a template-provided title and renderer-specific navigation from Markdown style, and protect the published deep link.",
+      "files": [],
+      "expectations": [
+        "Advises against adding the body H1 because the renderer already emits the frontmatter title and readers would see it twice.",
+        "Advises against [TOC] because this renderer will show it as text rather than generate navigation; does not treat it as a universal requirement.",
+        "Identifies that renaming the heading alone loses #offline-mode and offers a fix that preserves the printed URL, such as keeping the heading or retaining a compatible target if supported."
+      ]
+    }
+  ]
+}

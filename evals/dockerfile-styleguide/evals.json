@@ -1,0 +1,29 @@
+{
+  "skill_name": "dockerfile-styleguide",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Our catalog service builds from the repo root with `docker buildx build -f ops/catalog.Dockerfile apps/catalog`. Use that command unchanged. The context has package.json, package-lock.json, server.js, templates/, node_modules/, coverage/, debug.log, and scratch.json. Only the two package files, server.js, and templates/ are build or runtime inputs. This plain JS service has production dependencies only, no install hooks or compile step, and writes nothing at runtime. Our policy excludes disposable directories, root-level *.log files, and root-level JSON other than the two package files from the context. There is no Dockerfile-specific ignore file. Current ops/catalog.Dockerfile:\n\nFROM node:22-bookworm-slim\nWORKDIR /app\nCOPY . .\nRUN npm install\nUSER node\nCMD [\"node\", \"server.js\"]\n\nThe current apps/catalog/.dockerignore contains just `*.log`. Give me both revised files in chat, labelled with their paths. Keep our approved base, runtime user, and startup command. Template edits are frequent and shouldn't force dependency installation again. Don't build anything.",
+      "expected_output": "A Dockerfile and context-root ignore file isolate lockfile-based installation from application edits, keep runtime inputs available, and filter local artifacts without hiding the manifests.",
+      "files": [],
+      "expectations": [
+        "The installation uses the committed package.json and package-lock.json with npm ci (or an equivalent frozen installation); changing the lockfile invalidates installation but changing only server.js or templates/ does not.",
+        "The effective rules in apps/catalog/.dockerignore exclude node_modules/, coverage/, root *.log and unneeded root JSON including scratch.json and newly added JSON files, while admitting both package files and the required runtime inputs.",
+        "Paths resolve under apps/catalog with the given build command: the runtime image has server.js and the templates directory at their intended locations under /app, without relying on host node_modules.",
+        "The Dockerfile retains node:22-bookworm-slim, runs the service as node, and starts node with server.js as a separate argument."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Static review for a CLI image. Its Linux runtime has /bin/sh and an executable /opt/card, and the base defines neither ENTRYPOINT nor CMD. Users run `docker run card` to get a plain report, or `docker run card --title 'North Wing'` to request a title with a space instead. /opt/card handles stop signals itself and must be the container's main process. Two PRs change only the final instructions. A:\n\nCMD [\"/opt/card\", \"--format\", \"plain\"]\n\nB:\n\nENTRYPOINT /opt/card\nCMD [\"--format\", \"plain\"]\n\nWhich calls work as intended for each PR? Explain what Docker actually starts or attempts to start for both calls, then give the minimal final instructions you would approve. No build, run, or wrapper script.",
+      "expected_output": "Distinguish replacement of CMD from arguments ignored by a shell-form entrypoint, then pair a fixed executable with replaceable default arguments in exec form.",
+      "files": [],
+      "expectations": [
+        "For A, the default starts /opt/card with --format and plain, but the override replaces the complete command and tries to execute --title instead of /opt/card.",
+        "For B, identifies shell-form startup via /bin/sh -c; neither the default --format plain nor the supplied --title and North Wing are forwarded to /opt/card by that shell command.",
+        "The approved instructions launch /opt/card directly as PID 1 without a shell and pass --format and plain as two arguments on a default run.",
+        "With the approved instructions, the override keeps /opt/card as the executable and passes exactly --title and North Wing, with no default arguments or word splitting."
+      ]
+    }
+  ]
+}

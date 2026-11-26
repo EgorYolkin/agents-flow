@@ -1,0 +1,29 @@
+{
+  "skill_name": "typescript-styleguide",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Our strict TypeScript app reads a table sort preference from JSON storage. Storage can contain any JSON value from an older app. The UI expects exactly this contract: `export interface Sort { column: string; descending: boolean }`. We also store unrelated metadata on some entries. Here's the draft helper: `export function readSort<T>(raw: unknown): T | undefined { return raw == null ? undefined : raw as T; }`. The only consumer wants `const sort = readSort(stored); if (sort) redraw(sort.column, sort.descending);` with no type argument. Give a replacement function and any helper it needs in chat; Sort already exists. A column name is any nonempty string and is displayed verbatim; an unreadable preference means the UI should use its normal default.",
+      "expected_output": "A concrete Sort-or-undefined decoder checks unknown values before treating them as preferences, retaining valid values rather than coercing them or rejecting harmless extra fields.",
+      "files": [],
+      "expectations": [
+        "readSort accepts unknown and exposes Sort | undefined or a structurally equivalent inferred type, so the stated caller type-checks without supplying a type argument or asserting a type.",
+        "Returns undefined rather than throwing or producing a Sort for null, primitives, an empty object, or an empty column name.",
+        "Checks field types at runtime: a numeric column and a string-valued descending flag are each rejected rather than cast or coerced.",
+        "Accepts {column: ' rank ', descending: false, version: 2}, preserving the spaces and the false flag."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review a proposed import/export cleanup in plugin.ts; answer in chat with a verdict and minimal safe alternative for each change. This is native Node ESM compiled with NodeNext and verbatimModuleSyntax, with no bundler. Current code:\n\nimport {type Layout} from './layouts.js';\nimport './seal.js';\nexport default function choose(layout: Layout) { return layout.width; }\n\nlayouts.ts exports the Layout interface and at top level registers built-in layouts. seal.ts snapshots the registry once at module evaluation. These are the only imports of those modules in the host's load path. The host does `const {default: choose} = await import('./plugin.js')`. A style PR proposes `import type {Layout} from './layouts'`, alphabetizes side-effect imports without regard to order, and switches choose to a named-only export. Explain the impact on build, startup, and host usage, including whether the current first import actually loads anything.",
+      "expected_output": "Recognize the emitted dependency of the current inline type specifier; preserve its registration before sealing, the NodeNext specifier, and the default export the host consumes.",
+      "files": [],
+      "expectations": [
+        "Distinguishes an inline type specifier under verbatimModuleSyntax, which leaves a runtime import that evaluates layouts.js, from an erased whole-declaration import type.",
+        "Explains why native NodeNext ESM relative imports here need the explicit .js suffix rather than the extensionless proposal.",
+        "Keeps layouts evaluation before seal and explains that a snapshot taken first omits the built-ins; if separating type and effect imports, retains an explicit runtime import of layouts.js in that order.",
+        "Preserves a default export and explains that the dynamic import's default binding would be undefined with a named-only export."
+      ]
+    }
+  ]
+}

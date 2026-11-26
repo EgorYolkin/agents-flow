@@ -1,0 +1,27 @@
+{
+  "skill_name": "project-init",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Let's kick off work on examples/. All you have so far is this snapshot: examples/ is empty, README.md shows a FastAPI health endpoint as a tutorial, and a backlog comment mentions a CSV importer. Neither AGENTS.md nor GIT_WORKFLOW.md exists. What do you need from me next?",
+      "expected_output": "A focused question about the desired outcome rather than autonomous onboarding or implementation of either example.",
+      "files": [],
+      "expectations": [
+        "Asks the user what deliverable or outcome they want for examples/ rather than assuming one.",
+        "Does not adopt the tutorial endpoint or backlog item as the first task or propose a stack as if selected.",
+        "Keeps the kickoff in chat; does not create onboarding files or start application work merely because the files are missing."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We approved fixing tools/labels.py so the numeric label 0 is exported instead of skipped. This is a dry run of the handoff: describe what the implementing agent should do in order, not actual edits now. The repo has a root AGENTS.md but no GIT_WORKFLOW.md. Its CONTRIBUTING.md says to continue on the existing task branch. The installed skills are init and python-styleguide; git-guide is unavailable. tests/test_labels.py already checks round-tripping an ordinary label. No installs, please.",
+      "expected_output": "A read-only handoff that sequences missing-file onboarding, the applicable Python guidance and the Git fallback ahead of the code change, with a specific regression check.",
+      "files": [],
+      "expectations": [
+        "Routes the implementing agent through init at the repo root before editing tools/labels.py, despite AGENTS.md already existing; does not initialize a nested repo under tools/.",
+        "Applies python-styleguide to the Python change and reports git-guide unavailable; uses the project workflow and the documented task branch rather than installing the skill or inventing a new branch rule.",
+        "Names an observable check that a numeric zero survives export, rather than treating the existing ordinary-label check as proof. Does not claim edits or test runs from the dry run."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "skill_name": "python-styleguide",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Our Python 3.10 telemetry importer streams integer samples from a large file. A preview panel now receives a one-shot iterable of text lines and needs exactly the same samples. Here's the existing public entry point:\n\ndef samples(path):\n    with open(path, encoding=\"utf-8\") as stream:\n        for line in stream:\n            field = line.partition(\"#\")[0].strip()\n            if field:\n                yield int(field)\n\nIn chat, show the revised code and how the preview calls it. Include a short example that would catch an accidental change to when a bad line fails. File callers may stop after one sample and explicitly close the iterator; the preview's iterator belongs to the panel.",
+      "expected_output": "Share a streaming text-to-sample operation between callers while leaving file opening and closure with the existing public generator. Demonstrate a valid item preceding a deferred parse error.",
+      "files": [],
+      "expectations": [
+        "The preview can pass a one-shot iterable directly to the same parsing logic used by samples(path), without opening a file or transferring ownership of the preview input.",
+        "A comment-only line yields nothing, and a line containing '0 # idle' yields the integer 0; a nonempty malformed field still raises ValueError.",
+        "Calling samples(path=...) defers opening the file until iteration, keeps it open while yielding, and releases it if the partially consumed generator is closed.",
+        "The example distinguishes the first successful next() on valid-then-malformed input from the later next() that raises, rather than checking only the outcome of consuming the whole sequence."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review these proposed cleanups to routes.py in chat; don't rewrite the module. This library supports Python 3.9. Plugins call typing.get_type_hints(route) without passing namespaces and call route(packet=p, retryAfter=0) to disable retries. The module currently contains:\n\nfrom __future__ import annotations\nfrom .wire import Packet\nfrom typing import Optional\n\ndef route(packet: Packet, retryAfter: Optional[int] = None) -> int:\n    wait = 5 if retryAfter is None else retryAfter\n    return packet.schedule(wait)\n\nThe review suggests importing Packet only under TYPE_CHECKING, renaming retryAfter to retry_after, replacing the assignment with `delay = retry_after or 5`, and passing `delay` to schedule. Which parts would you take on their own? Explain what a plugin would observe for the rest.",
+      "expected_output": "Distinguish a harmless local rename from changes that break annotation lookup, keyword-call compatibility, or an explicit zero delay.",
+      "files": [],
+      "expectations": [
+        "Explains that postponing annotation evaluation allows the definition but does not provide Packet in the runtime globals where get_type_hints later resolves it.",
+        "Keeps the published retryAfter keyword and identifies that existing keyword calls would otherwise raise TypeError.",
+        "Explains that the original passes 0 to schedule while an or-based fallback passes 5, and retains a None-specific fallback.",
+        "Accepts renaming only the local wait to delay and using the renamed local at the call site, independently of the public or behavioral changes."
+      ]
+    }
+  ]
+}

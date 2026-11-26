@@ -1,0 +1,29 @@
+{
+  "skill_name": "shell-styleguide",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Please fix this function in our sourced POSIX sh library and give me a pasteable snippet with a short caller-facing header. preview_cards STYLE [CAPTION ...] calls our existing card_preview command, whose interface is --style STYLE -- followed by zero or more literal captions. An empty STYLE selects the default; omitting STYLE is a usage error (diagnostic on stderr, status 2). Otherwise callers expect the command's original streams and status. A call we need to support is preview_cards '' 'North Wing' '' '*.txt' '-v'. This is the whole function:\n\npreview_cards() {\n  if [ -z \"$1\" ]; then\n    echo 'missing style'\n    exit 2\n  fi\n  style=$1\n  shift\n  card_preview --style $style -- $*\n  return 0\n}\n\nDon't change shell dialect or leave helper variables behind in the caller.",
+      "expected_output": "A portable replacement and usage header distinguish a missing style from an empty one, pass the exact argument list, and leave the sourcing shell and the preview command's status intact.",
+      "files": [],
+      "expectations": [
+        "With no operands, the function writes a diagnostic only to stderr, returns 2 without running card_preview, and does not exit the sourcing shell.",
+        "For the sample call, card_preview receives exactly these seven arguments in order: --style, an empty string, --, North Wing, an empty string, literal *.txt, and -v. A style alone adds no caption argument.",
+        "A card_preview failure such as status 17 reaches the caller as 17; successful calls do not add or capture output on either stream.",
+        "The snippet works as sourced POSIX sh even if the caller already has a variable named style; its value is unchanged after the call."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Static review only of this Bash 5.x library function. The caller runs `if remember_label \"$key\"; then ...; fi`. It initializes the indexed array labels=() and integer accepted=0. lookup_label prints a single label line on success; on an unknown key it prints nothing and returns 7. A failed lookup must not change either variable; storing any label, even the first, counts as success. Assume the variables are writable. What happens on the first successful lookup and, separately from a fresh state, on an unknown key? Identify the faulty lines and the smallest corrections in chat.\n\nremember_label() {\n  local label=$(lookup_label \"$1\") || return \"$?\"\n  labels+=(\"$label\")\n  ((accepted++))\n}",
+      "expected_output": "Trace the array, counter, and returned status for each call, separating the masked lookup failure from the arithmetic command's success predicate; give narrow fixes for both.",
+      "files": [],
+      "expectations": [
+        "For the first successful lookup, says the label is stored and accepted becomes 1, but the function returns status 1 because post-increment evaluates to the old value 0.",
+        "For a fresh unknown-key call, identifies that local masks lookup_label's status 7: an empty element is appended, accepted becomes 1, and the function returns 1 rather than 7.",
+        "Recommends a fix that preserves local scope, returns the original lookup failure before mutating either variable, and still accepts a successful lookup.",
+        "Recommends decoupling the arithmetic expression's truth value from the function result so a stored first label returns 0 without losing the increment."
+      ]
+    }
+  ]
+}

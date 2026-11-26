@@ -1,0 +1,29 @@
+{
+  "skill_name": "swift-styleguide",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Replace this unreleased Swift ticket-allocation prototype with a small public API. Each allocation starts with eight seats. The box office assigns the live allocation to a second variable to try a booking; the live allocation must still be usable independently. A successful booking reports seats left, including zero; an impossible or nonpositive request is an ordinary refusal, not an error. Give the Swift declaration with caller-facing documentation and a short example showing what the two variables report. You may change the names.\n\nfinal class Counter {\n  var n = 8\n  func update(_ x: Int) -> Int { n -= x; return n }\n}",
+      "expected_output": "A documented, externally usable booking API that distinguishes refusal from selling the last seat, protects the count, and demonstrates independent bookings after assignment.",
+      "files": [],
+      "expectations": [
+        "A client in another module can create an allocation and request a booking but cannot directly overwrite the seats remaining; the call-site name or label conveys the role of the integer.",
+        "From eight seats, booking eight succeeds with zero remaining; booking nine, zero, or a negative amount is distinguishable from success and leaves all eight seats available.",
+        "The example assigns one allocation to another and makes bookings whose reported results would differ if the two variables shared mutable state; the shown results match independent starting counts.",
+        "The booking method's documentation states what success returns and what refusal means, including that refusal consumes no seats."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review only. This shipping Swift package has the declarations below. Its JSON uses the default Codable key strategy, and older app versions have persisted objects like {\"receipt_id\":\"R;17\"}. Clients call try load(from: store); nil shows an empty screen, while a thrown disk error offers Retry. Store.read() is synchronous and returns Receipt? or throws. A style PR (1) renames receipt_id to receiptID with no other change, (2) replaces ‘try store.read()’ with ‘try? store.read()’ while leaving the declaration alone, and (3) deletes the trailing statement semicolons. Which edits, if any, are safe in this patch? Explain the caller or data impact and suggest a narrow correction where needed.\n\npublic struct Receipt: Codable {\n  public let receipt_id: String;\n}\n\npublic func load(from store: Store) throws -> Receipt? {\n  return try store.read();\n}",
+      "expected_output": "Separate source and persistence compatibility from naming taste, distinguish failure from absence, and allow the mechanical punctuation cleanup.",
+      "files": [],
+      "expectations": [
+        "Rejects the property rename as a style-only edit because downstream source referring to .receipt_id would no longer compile; keeping the existing public spelling is an acceptable correction.",
+        "Explains that the synthesized key would also change to receiptID, so the old JSON lacks the required key; keeping receipt_id or explicitly mapping the old wire key preserves the stored format.",
+        "Rejects try? because a disk failure would become nil and incorrectly show an empty screen rather than reaching the caller's Retry path; preserves propagation with try.",
+        "Accepts dropping the two trailing Swift statement semicolons without changing the semicolon inside the example receipt identifier."
+      ]
+    }
+  ]
+}

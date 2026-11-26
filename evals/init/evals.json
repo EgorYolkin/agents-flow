@@ -1,0 +1,27 @@
+{
+  "skill_name": "init",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm onboarding a small caption archive. Draft the complete root instruction file(s) in chat, each labeled with its path; don't edit anything or run any commands. Here is the full project inventory: README.md and captions/intro.vtt. The README says to put WebVTT files under captions/ and manually check that cue timestamps increase. There is no Git repository (including in ancestor directories), CI, package manager, or documented contribution policy. Don't scaffold the project.",
+      "expected_output": "Two usable root document drafts based on the archive's actual practices, with a relative workflow link and an honest description of the lack of Git policy.",
+      "files": [],
+      "expectations": [
+        "Supplies both AGENTS.md (headed '# Repository Guidelines') and a separate GIT_WORKFLOW.md draft, with an AGENTS link that resolves to the root workflow, not to a template.",
+        "Directs contributors to captions/ and the increasing-timestamps check; does not invent a test command or claim that the check was run.",
+        "The workflow distinguishes the absence of a Git repository and an established policy from any optional future recommendations, without requiring Git initialization, a branch, or a commit to complete the draft."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Check this onboarding handoff from the supplied snapshot only. The tool reported success in an existing Git repo. The root AGENTS.md begins '# Repository Guidelines', says 'Keep release notes in French', and links to [workflow](docs/GIT_WORKFLOW_EXAMPLE.md). That example exists and recommends squash merges. There is no root GIT_WORKFLOW.md. CONTRIBUTING.md explicitly requires merge commits. What is the status, and what minimal change would actually finish onboarding? Don't make edits.",
+      "expected_output": "An incomplete verdict and a precise repair that gives the target project its own workflow while preserving its established policies.",
+      "files": [],
+      "expectations": [
+        "Reports onboarding incomplete despite a working link and an existing Git repository; identifies the missing root GIT_WORKFLOW.md.",
+        "Proposes a project workflow based on CONTRIBUTING.md's merge-commit rule, not the example's squash policy, and retains the French release-note instruction.",
+        "Repoints AGENTS.md to the root workflow and calls for opening both root files and verifying that the link resolves to that exact file before claiming success."
+      ]
+    }
+  ]
+}

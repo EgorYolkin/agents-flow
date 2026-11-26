@@ -1,0 +1,27 @@
+{
+  "skill_name": "git-guide",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Talk me through saving only our finished fix; don't run commands. Before we started, another developer had staged a banner change in ui.py and notes.md. Our fix is a separate, identifiable unstaged hunk in ui.py. The branch is the correct one for this fix and nobody else is writing now. The checkout tests pass, but they used the whole working tree. Our harness can construct and inspect a candidate from selected hunks without changing the shared index. What should go into the local commit and what should remain afterward?",
+      "expected_output": "A plan for an isolated, verified commit that leaves both staged user changes and their contents intact.",
+      "files": [],
+      "expectations": [
+        "Selects only the fix hunk against HEAD; neither a normal commit of the shared index nor a whole-file commit of ui.py is offered as isolating the change.",
+        "Checks the full candidate and validates the fix without relying solely on tests run with the unrelated banner present.",
+        "Verifies that the resulting commit excludes the banner and notes.md and that both user changes remain staged and unaltered; does not clear or stash them to make the commit."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Two independent fixes need to run in parallel. I'm actively editing and testing an uncommitted change in /work/desk, on my own branch. Your task is the PDF footer and needs only committed main, not my changes. The project uses one task branch per fix. I authorize local work, not publication. From this snapshot, give me the setup and handoff plan only; do not execute it.",
+      "expected_output": "Separate the writers without switching or cleaning the user's checkout; validate and hand off the footer change locally.",
+      "files": [],
+      "expectations": [
+        "Places the footer work on a distinct task branch from committed main in a separate working directory (e.g., a linked worktree), and leaves the active checkout on its original branch.",
+        "Recognizes that the independent workspace does not inherit uncommitted changes; does not copy, stash, reset, or commit the user's edits as setup.",
+        "Plans verification and a local commit for the footer, with branch/worktree and commit information for handoff, without pushing, merging, or claiming the proposed actions already ran."
+      ]
+    }
+  ]
+}

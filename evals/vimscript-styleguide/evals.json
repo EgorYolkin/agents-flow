@@ -1,0 +1,29 @@
+{
+  "skill_name": "vimscript-styleguide",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Fix this exported function in autoload/reviewpane.vim for legacy Vim 8.2. Each review window has its own threshold, even when two windows show the same buffer. The caller sets an integer from 0 to 9 inclusive and uses the returned previous threshold to restore its view; -1 means this window had none. Other inputs must throw exactly reviewpane:InvalidThreshold without changing anything. This function is called without moving the cursor or switching windows. Return only a pasteable replacement with a short API comment.\n\nfunction! reviewpane#SetThreshold(level) abort\n  let l:old = get(b:, 'reviewpane_threshold', -1)\n  let b:reviewpane_threshold = a:level\n  return l:old\nendfunction",
+      "expected_output": "The legacy autoload function keeps its public name, returns the previous value from the current window, and rejects invalid inputs before mutating state.",
+      "files": [],
+      "expectations": [
+        "In two windows already showing the same buffer, setting 4 in the first and 2 in the second returns -1 for both; setting 9 in the first then returns 4.",
+        "Zero is stored as a real threshold: after setting 0, the next valid change in that window returns 0, not -1.",
+        "The string '3', the Float 3.0, and the Numbers -1 and 10 each throw reviewpane:InvalidThreshold, leaving any existing valid value intact.",
+        "The result remains callable as reviewpane#SetThreshold(level) from the specified legacy autoload file without changing the current window, buffer, or cursor position."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review only. A legacy Vim 8.2 plugin is sourced repeatedly in a running editor; the NotesShared group also contains another plugin's FileType notes handler and we can't edit that plugin. This is our entire registration block:\n\naugroup NotesShared\n  autocmd FileType notes set spell\naugroup END\nnnoremap <leader>nf :NotesFind<Space>\n\nWe want spell checking only in the window displaying the notes when the event fires. :NotesFind requires a query that the user types after pressing the mapping. A cleanup proposes adding `autocmd!` just after `augroup NotesShared`, leaving `set spell` alone, and dropping the final `<Space>` from the mapping as trailing whitespace. What would you tell the reviewer about each change and its smallest safe alternative? Answer in chat; don't run Vim.",
+      "expected_output": "Explain the reload and ownership tradeoff, the local-versus-global option effect, and why the mapping's final space is functional input.",
+      "files": [],
+      "expectations": [
+        "Explains both why repeated sourcing currently accumulates registrations and why an unqualified autocmd! inside NotesShared would remove the other plugin's handler.",
+        "Recommends idempotent registration that retains the other plugin's same-event, same-pattern handler, such as defining and clearing only a plugin-owned group.",
+        "Explains that set spell also changes the default for other windows; recommends a window-local setting at event time.",
+        "Retains a trailing command-line separator and does not submit the command: after the mapping and typing draft, the command line must be :NotesFind draft rather than :NotesFinddraft."
+      ]
+    }
+  ]
+}
