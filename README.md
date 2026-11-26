@@ -39,6 +39,7 @@
 | [Dockerfile](skills/dockerfile-styleguide/SKILL.md) | Dockerfile и `.dockerignore`: сборка, кэширование, размер образа и безопасность |
 | [Go](skills/go-styleguide/SKILL.md) | Имена и `gofmt`, контракты экспортируемого API, ошибки и выбор между конкретным типом, интерфейсом и параметром типа |
 | [Python](skills/python-styleguide/SKILL.md) | Именование, импорты, типы, docstrings, комментарии и зависимости через `uv` и `requirements.txt` |
+| [Rust](skills/rust-styleguide/SKILL.md) | Владение и заимствование, API крейтов, ошибки и rustdoc с учётом edition и минимальной версии Rust |
 | [HTML/CSS](skills/html-css-styleguide/SKILL.md) | Разметка, стили и шаблоны с сохранением доступности и используемых селекторов |
 | [Shell](skills/shell-styleguide/SKILL.md) | Bash и sh: quoting, аргументы, обработка ошибок и совместимость |
 | [TypeScript](skills/typescript-styleguide/SKILL.md) | TypeScript и TSX: типы и имена публичного API, проверка входных данных и контракты компонентов |
@@ -86,6 +87,11 @@
 Используй python-styleguide. Исправь стиль в изменённых Python-файлах,
 сохрани публичные API и совместимость с поддерживаемыми версиями Python.
 Проверь ответственность функций и запусти доступные проверки проекта.
+```
+
+```text
+Используй rust-styleguide для ревью src/lib.rs. Где можно убрать копирование,
+а где вызывающему коду нужен владеющий результат? Файлы пока не меняй.
 ```
 
 ```text
