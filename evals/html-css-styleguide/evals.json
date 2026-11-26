@@ -1,0 +1,27 @@
+{
+  "skill_name": "html-css-styleguide",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Our invoice form includes this server-rendered partial. Keyboard users can't reach Preview. Return replacement HTML for the partial only. A delegated click on [data-preview] opens the preview; submitting the surrounding form instead sends the invoice. CSS styles .invoicePreview, and the test clicks #previewInvoice. The label on screen is ‘Preview invoice’; the eye icon beside it is decorative. No JS or CSS changes are possible.\n\n<span id=\"previewInvoice\" class=\"invoicePreview\" data-preview=\"{{ invoice.id }}\"><img src=\"/Icons/Eye.svg\"> Preview invoice</span>",
+      "expected_output": "A pasteable fragment that opens the preview with a pointer or keyboard, without sending the form or making the icon part of the control's name.",
+      "files": [],
+      "expectations": [
+        "The preview control is reachable by Tab and produces a click on Enter and Space through native button behavior; activation does not submit the form.",
+        "The interactive element still matches #previewInvoice, .invoicePreview and [data-preview], with the invoice.id template expression providing the data attribute value.",
+        "The visible label and accessible name are both ‘Preview invoice’; the decorative image still loads /Icons/Eye.svg and does not add a filename or description to the name."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review these proposed edits to badge.css independently. The two rules below are the entire author stylesheet for the element <span class=\"badge badge--new\">New</span>. We still support a browser that ignores oklch() but otherwise supports everything shown. A teammate would (A) remove the first color as a duplicate, (B) replace background-color: white with background: white, and (C) shorten the padding to 0 8px. Which edits can ship as style-only? Explain what a user would see or which computed values change.\n\n.badge {\n  color: #333;\n  color: oklch(40% 0.1 240);\n  background-image: url(\"/icons/dots.svg\");\n  padding: 0 8px 0 8px;\n}\n.badge--new {\n  background-color: white;\n}",
+      "expected_output": "A decision on each edit based on the legacy color fallback, the effect of the later background shorthand, and equivalence of the padding values.",
+      "files": [],
+      "expectations": [
+        "Rejects A: the older browser currently uses #333, but after the edit it would inherit color rather than receive #333 from .badge.",
+        "Rejects B: the later background shorthand sets background-image to none, so the dots disappear even though the white background color remains.",
+        "Accepts C and correctly maps 0 to both vertical sides and 8px to both horizontal sides."
+      ]
+    }
+  ]
+}

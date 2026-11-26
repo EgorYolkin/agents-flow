@@ -1,0 +1,29 @@
+{
+  "skill_name": "go-styleguide",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We're designing an unreleased Go 1.20 package called spool. Both an *os.File and a *bytes.Buffer will receive a batch of byte fragments. A caller uses the byte count to resume from the first unsent byte and errors.Is to classify sink failures. Here's the draft:\n\nfunc Send(dst *os.File, fragments [][]byte) (int, error) {\n    total := 0\n    for _, part := range fragments {\n        n, err := dst.Write(part)\n        if err != nil { return 0, fmt.Errorf(\"write: %v\", err) }\n        total += n\n    }\n    return total, nil\n}\n\nGive me a pasteable package snippet with a caller-facing doc comment. We pass nonempty fragments; stop at the first failed or incomplete write, even for a third-party sink that reports a short count but no error. The destination is reused by the caller afterward.",
+      "expected_output": "A writer-based Send reports progress including a failing write, preserves identifiable sink errors, and treats a short write without an error as a failure.",
+      "files": [],
+      "expectations": [
+        "Both *os.File and *bytes.Buffer can be passed without adapters; the caller need not provide Close and Send does not close the destination.",
+        "After one complete 4-byte write followed by (2, sentinel) on a longer fragment, Send returns 6 and an error matching sentinel via errors.Is, without another write.",
+        "A short write with nil error returns the actual cumulative count and a non-nil error immediately; an empty batch returns (0, nil).",
+        "The exported doc comment states what the count means on error and who retains ownership of the destination."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review a cleanup PR for a released Go package, in chat only. The current declarations are `type Label struct { Text string }; func (l Label) String() string { return l.Text }`. Client code passes both `Label{Text: \"ok\"}` and `&Label{Text: \"ok\"}` to `func display(fmt.Stringer)`. The PR changes String to a pointer receiver for consistency with a new mutating method. Separately, it shortens `func Check(l Label) error { issue := inspect(l); if issue != nil { return issue }; return nil }` to `func Check(l Label) error { return inspect(l) }`. The private inspect returns *LabelError, nil for a valid label; *LabelError implements error. Clients call `if err := Check(label); err != nil { reject(label) }`. Which changes, if any, can ship as written? Tie your recommendation to those call sites and suggest the smallest corrections.",
+      "expected_output": "Reject two independent source/behavior breaks: losing the value method set and converting a nil concrete error pointer into a non-nil interface.",
+      "files": [],
+      "expectations": [
+        "Distinguishes the two display calls: Label no longer satisfies fmt.Stringer after the receiver change, but *Label still does.",
+        "Recommends keeping String on the value receiver for compatibility; adding a separate pointer-receiver mutator does not require changing String.",
+        "Explains why a valid label would be rejected: the returned interface contains the dynamic type *LabelError even when its pointer value is nil.",
+        "Gives a correction that returns a genuinely nil error on success and preserves the actual *LabelError on failure."
+      ]
+    }
+  ]
+}
