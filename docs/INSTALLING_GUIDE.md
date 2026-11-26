@@ -80,6 +80,7 @@ Codex, Claude Code, OMP, Pi, OpenCode или любом другом. Не пе�
 | `dockerfile-styleguide` | `dockerfile-styleguide` | Dockerfile и `.dockerignore` |
 | `go-styleguide` | `go-styleguide` | Go: `gofmt`, имена, комментарии к API, ошибки, интерфейсы и параметры типов |
 | `python-styleguide` | `python-styleguide` | Python: стиль, импорты, типы, docstrings, комментарии и зависимости через `uv` и `requirements.txt` |
+| `rust-styleguide` | `rust-styleguide` | Rust: заимствования, API крейтов, обработка ошибок, rustdoc и форматирование |
 | `html-css-styleguide` | `html-css-styleguide` | HTML, CSS, шаблоны |
 | `shell-styleguide` | `shell-styleguide` | Bash и POSIX sh |
 | `typescript-styleguide` | `typescript-styleguide` | TypeScript и TSX: когда дженерик сохраняет тип результата, зачем проверять внешние данные и как описывать экспорты и props |
@@ -136,6 +137,8 @@ Codex, Claude Code, OMP, Pi, OpenCode или любом другом. Не пе�
 1. Проверь `SKILL.md`, его `name`, `description` и локальные ссылки.
 2. Подготовь пакет целиком: `SKILL.md`, `references/` и другие ресурсы, если
    они существуют и используются скиллом. Сохрани атрибуцию источников.
+   Сценарии из `evals/<имя-скилла>/` оставь в репозитории: это проверки пакета,
+   а не его ресурсы для установки.
 3. Не включай `.git`, отчёты проверок, временные файлы и документацию по
    установке самого репозитория. Не создавай в каталоге skills папки
    `*-workspace` и HTML-отчёты.
@@ -259,6 +262,12 @@ Git само по себе не запускает `init`. Если `init` ну�
 
 Для смешанной задачи сочетай скиллы по областям: например, Docker для образа
 и Shell для entrypoint. Не распространяй правила одного языка на другой.
+
+Для Rust применяй `rust-styleguide` к затронутому крейту и его тестам.
+Сверь edition, минимальную версию Rust и используемые features с настройками
+проекта. Отличай рекомендации для библиотек от решений для приложения;
+не переноси правила Chromium в обычный Cargo-проект без основания.
+
 Для Python используй `python-styleguide`: сначала проверь поддерживаемые версии
 и существующие инструменты проекта. Сохраняй публичные API и не превращай
 рекомендации по длине функций в обязательное разбиение или создание классов.
