@@ -1,6 +1,6 @@
 ---
 name: project-init
-description: Orient an agent at project kickoff. Help define a user-directed first deliverable, choose relevant skills, and agree on a check. Planning is read-only. Run init when the user requests repository onboarding, or before approved implementation if onboarding is missing.
+description: Coordinate project kickoff from the user's goal. Use init for repository instructions and apply the styleguides for the files involved. Route significant code changes through git-guide. Planning alone is read-only.
 ---
 
 # Project Init
@@ -28,11 +28,17 @@ Distinguish commands found in the repository from checks actually run.
 
 ## Route the task
 
-Match the first task against skill descriptions available in the current harness.
-If the agents-flow catalog is accessible, distinguish installed skills from
-relevant install candidates. Install only as a separate requested action.
-When coverage is missing, use the project's instructions and checks. Never
-invent a skill name to fill a gap.
+Identify the files the requested task touches. Load the installed styleguides
+that match them and apply them to the review or edit; do not just list their
+names. For example, use the Python guide for a Python module and the shell
+guide for its shell launcher, not every guide for every file. Where no guide
+is installed, use the project's conventions and note the gap. Install skills
+only on request.
+
+Before the first edit for a significant code change, also load and follow
+`git-guide`. This applies to a feature, bug fix, or refactor regardless of
+patch size. The styleguide governs the code; `git-guide` governs the Git work.
+For a review or plan alone, do not create branches or commits.
 
 ## Run repository onboarding when requested or needed
 
@@ -44,11 +50,11 @@ request explicitly limits work to a plan or review, do not write anything.
 
 Otherwise, check onboarding once the user authorizes a specific implementation,
 in the initial request or in a follow-up approving an agreed task. Approval to
-run `init` alone does not authorize implementation. Check the repository root,
-not just the deliverable directory. Load and follow `init` before task edits
-if Git, `AGENTS.md`, or `GIT_WORKFLOW.md` is missing; otherwise use the existing
-instructions. Do not create a nested Git repository or override a request to
-skip onboarding.
+run `init` alone does not authorize implementation. Check the target project
+root, not just the deliverable directory. If either `AGENTS.md` or
+`GIT_WORKFLOW.md` is missing, run `init` before task edits unless the user
+asked to skip onboarding. If both exist, use them. The absence of a Git
+repository alone is not a reason to rerun `init` or create a repository.
 
 If the required `init` skill is unavailable, say so and offer to continue
 without onboarding or install it with the user's approval. Do not silently
