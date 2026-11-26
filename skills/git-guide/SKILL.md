@@ -1,6 +1,6 @@
 ---
 name: git-guide
-description: Manage Git work during coding tasks with task branches, purposeful history inspection, worktree isolation when needed, and verified logical commits. Use when implementing changes in a Git repository, preparing commits, coordinating parallel writers, integrating branches, or recovering interrupted Git work. Preserve pre-existing changes and follow the project's branching and publication policy.
+description: Apply before every significant code change, whether requested directly or through project-init. Manage task branches, history, worktree isolation, verified commits, integration, and recovery while preserving existing work and project policy.
 ---
 
 # Git Guide
@@ -11,6 +11,12 @@ logical step. These are workflow defaults, not requirements imposed by Git;
 explicit user instructions and established repository policies take precedence.
 
 ## Inspect before writing
+
+Use this skill before the first edit for a feature, bug fix, or refactor, even
+if the patch is one line or the user did not mention Git. It complements the
+relevant styleguide and does not generate onboarding files. If the target is
+outside any Git repository, report that Git steps do not apply; do not run
+`git init` without a separate request.
 
 Read project instructions and inspect the repository root, current branch, HEAD,
 worktrees, staged/unstaged/untracked changes, and unfinished Git operations.

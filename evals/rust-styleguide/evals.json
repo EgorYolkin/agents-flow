@@ -1,0 +1,27 @@
+{
+  "skill_name": "rust-styleguide",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Refactor this private Rust helper for a CLI's display path. Callers have slices of String and only inspect the first nonempty note while the input is alive. Whitespace counts as a note. Return just the revised function in one rust code block so I can paste it into the same module. fn first_note(notes: &Vec<String>) -> Option<String> { notes.iter().find(|n| !n.is_empty()).cloned() }",
+      "expected_output": "A pasteable function accepts a slice and returns a borrowed view of the first nonempty note, or None, without allocation.",
+      "files": [],
+      "expectations": [
+        "Accepts a slice and returns a borrowed str usable by the caller.",
+        "Returns None for empty or all-empty input and preserves the first nonempty note, including whitespace.",
+        "Returns a view into the selected input string rather than independent storage."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review only; don't edit. Our ordinary, non-Chromium Cargo library builds on stable Rust. A reviewer citing the Google Rust guide left three requests: flatten src/parser/ because every crate must live in a single directory; remove use super::* from an inline #[cfg(test)] mod tests; and change the released public take_events(&mut self) -> Vec<Event> (it moves out an existing vector; clients index it) to impl Iterator<Item=Event>. Which requests would you accept on these facts, and why?",
+      "expected_output": "Evaluate the three requests independently, distinguishing codebase scope, the inline-module exception, and caller-visible ownership/indexing and compatibility.",
+      "files": [],
+      "expectations": [
+        "Rejects mandatory flattening and distinguishes Chromium layout policy from ordinary Cargo crates.",
+        "Identifies the explicit inline-module exception for use super::*.",
+        "Retains Vec and explains both the existing owned or indexed use case and the downstream API break."
+      ]
+    }
+  ]
+}
