@@ -62,8 +62,10 @@ than inventing rules. Ask for its location or the rules themselves.
 ## Compose the guide
 
 In `AGENTS.md`, instruct contributors to load `git-guide` before every
-significant code change, including work started after onboarding, and link to
-the project's `GIT_WORKFLOW.md`. Do not copy the skill's operational policy.
+significant code change, including work started after onboarding. Link to the
+project's `GIT_WORKFLOW.md` and tell contributors to report a missing
+`git-guide` and follow that workflow instead. If the project is outside Git,
+Git operations do not apply. Do not copy the skill's operational policy.
 
 Use Markdown headings and short, professional instructional prose. Match the
 requested language or the repository's established documentation language;

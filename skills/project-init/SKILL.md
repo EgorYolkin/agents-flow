@@ -38,6 +38,13 @@ only on request.
 Before the first edit for a significant code change, also load and follow
 `git-guide`. This applies to a feature, bug fix, or refactor regardless of
 patch size. The styleguide governs the code; `git-guide` governs the Git work.
+If `git-guide` is unavailable, report that and follow the applicable
+`GIT_WORKFLOW.md` after the onboarding check below. If there is no workflow,
+follow other applicable project instructions, preserve existing changes, and
+ask only about unresolved Git decisions needed to proceed safely. Do not invent
+policy or install the skill without approval. If the project is outside Git,
+skip Git operations and do not create a repository.
+
 For a review or plan alone, do not create branches or commits.
 
 ## Run repository onboarding when requested or needed
